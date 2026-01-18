@@ -1,56 +1,25 @@
-import { useEffect, useRef } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css'; // Quan trọng: Phải import CSS thì mới hiện giao diện
-import CKEditorDemo from '../components/common/CKEditorDemo ';
-
+import CKEditorDemo from "../components/common/CKEditorDemo ";
+import Button from "../components/common/Button";
+import instance from "../config/axios";
 function Resume() {
-    const editorRef = useRef<HTMLDivElement>(null); // Dùng ref thay vì gọi ID trực tiếp
-    const quillRef = useRef<Quill | null>(null);
-
-    useEffect(() => {
-        // 1. Khởi tạo (Chỉ chạy khi chưa có quillRef)
-        if (editorRef.current && !quillRef.current) {
-            quillRef.current = new Quill(editorRef.current, {
-                theme: 'snow',
-                placeholder: 'Hãy bắt đầu viết CV của ông chủ...',
-                modules: {
-                    toolbar: [
-                        [{ 'header': [1, 2, false] }],
-                        ['bold', 'italic', 'underline'],
-                        ['image', 'code-block']
-                    ]
-                }
-            });
-
-            const quill = quillRef.current;
-            const savedContent = localStorage.getItem('cv-content');
-            if (savedContent) {
-                quill.root.innerHTML = savedContent;
-            }
-
-            quill.on('text-change', () => {
-                const content = quill.root.innerHTML;
-                localStorage.setItem('cv-content', content);
-            });
-        }
-
-        // 2. PHẢI ĐẶT Ở ĐÂY (Nằm ngoài IF nhưng trong useEffect)
-        return () => {
-            if (quillRef.current) {
-                const toolbar = editorRef.current?.previousSibling;
-                if (toolbar && (toolbar as HTMLElement).classList.contains('ql-toolbar')) {
-                    toolbar.remove();
-                }
-                quillRef.current = null;
-            }
-        };
-    }, []); // Dependency array vẫn để trống
-
-    return (
-        <div className="container mx-auto p-10 bg-gray-50 min-h-screen">
-            <CKEditorDemo />
-        </div>
-    );
+  const handleSave = async () => {
+    const cvContent = localStorage.getItem("cv-content-ck");
+    if (cvContent) {
+      const response = await instance.put("/cvs", {
+        content: cvContent,
+      });
+      console.log(response.data);
+    }
+  };
+  return (
+    <div className="mx-auto p-10 bg-gray-50 min-h-screen grid grid-cols-12">
+      <div className="md:col-span-8">
+        <Button onClick={handleSave} name="Lưu CV" />
+        <CKEditorDemo />
+      </div>
+      <div className="flex md:col-span-4">khu vuc mau cv</div>
+    </div>
+  );
 }
 
 export default Resume;

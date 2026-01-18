@@ -1,12 +1,17 @@
-import Home from "../pages/Home";
-import Resume from "../pages/Resume";
+import Home from '../pages/Home';
+import Resume from '../pages/Resume';
+import Profile from '../pages/Profile';
 export const publicRoutes = [
     {
-        path: "/",
-        element: Home
+        path: '/',
+        element: Home,
     },
     {
-        path: "resume",
-        element: Resume
-    }
-]
+        path: '/tao-cv',
+        element: Resume,
+    },
+    {
+        path: '/profile',
+        element: Profile,
+    },
+];

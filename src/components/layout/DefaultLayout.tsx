@@ -1,13 +1,11 @@
-import NavBar from "./NavBar";
-import PrivateRoute from "../common/AppRoutes";
+import NavBar from './NavBar';
+import PrivateRoute from '../common/AppRoutes';
 
-export default function DefaultLayout({children}: {children: React.ReactNode}) {
+export default function DefaultLayout({ children }: { children: React.ReactNode }) {
     return (
         <div>
             <NavBar />
-            <PrivateRoute>
-                {children}
-            </PrivateRoute>
+            <PrivateRoute>{children}</PrivateRoute>
         </div>
-    )
+    );
 }
