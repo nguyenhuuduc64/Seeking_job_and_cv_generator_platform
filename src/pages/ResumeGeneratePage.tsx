@@ -1,20 +1,18 @@
-import Button from '../components/common/Button';
 import instance from '../config/axios';
-import exportPDF from '../utils/exportPDF';
-import CvArea from '../components/template/CvArea';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { dataCv } from '../const/ckEditor';
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import MyCVDocument from '../components/template/MyCVDocument';
-import ObjectiveManager from '../components/template/ObjectiveManager';
+import Resume from '../components/common/Resume';
+import Button from '../components/common/Button';
+import { faMagicWandSparkles } from '@fortawesome/free-solid-svg-icons';
+import TemplatePanel from '../components/common/TemplatePannel';
 // Tạo Document tổng thể
 
-function Resume() {
+function ResumeGeneratePage() {
     const { id } = useParams();
     const [cvData, setCvData] = useState<any[]>([]);
-    const [showPDF, setShowPDF] = useState(false);
+    const resumeRef = useRef<any>(null);
     const { data, isLoading } = useQuery({
         queryKey: ['cv', id],
         queryFn: () => instance.get(`/cvs/${id}`).then((res) => res.data),
@@ -32,6 +30,7 @@ function Resume() {
                 setCvData(dataCv);
             }
         }, 500);
+        console.log('data cv', dataCv);
         return () => clearTimeout(timeOutId);
     }, [data]);
 
@@ -63,46 +62,22 @@ function Resume() {
     if (isLoading) return <div>Đang tải dữ liệu của ông chủ...</div>;
 
     return (
-        <>
-            <div className="mx-auto p-10 bg-gray-50 min-h-screen grid grid-cols-12">
-                <div className="md:col-span-8 lg:col-span-8">
+        <div className="w-full bg-gray-100 py-10">
+            {/* Thêm container và căn giữa, px-10 hoặc px-20 tạo khoảng cách dày 2 bên */}
+            <div className="container mx-auto px-10 md:px-20 flex gap-10">
+                <div className="flex-2">
                     <div className="flex gap-2 mb-4">
                         <Button onClick={handleSave} name="Lưu CV" />
-                        <Button onClick={exportPDF} name="Xuất CV" />
-                        <Button onClick={() => setShowPDF((prev) => !prev)} name="Xem PDF" />
-                        <PDFDownloadLink
-                            document={<MyCVDocument cvData={cvData} />}
-                            fileName="my_cv.pdf"
-                        >
-                            {({ loading }) => (
-                                <Button
-                                    name={loading ? 'Đang chuẩn bị...' : 'Xuất PDF Chuyên Nghiệp'}
-                                />
-                            )}
-                        </PDFDownloadLink>
+                        <Button onClick={() => resumeRef.current?.print()} name="Xuất File PDF" />
+                        <Button name="AI Review" icon={faMagicWandSparkles} variant="secondary" />
                     </div>
+                    <Resume cvData={cvData} onItemsChange={setCvData} ref={resumeRef} />
+                </div>
 
-                    {/* ✅ CHIÊU THỨ HAI: Chỉ truyền cvData xuống con */}
-                    <CvArea items={cvData} onItemsChange={(newItems) => setCvData(newItems)} />
-                </div>
-                <div className="flex md:col-span-4 lg:col-span-4">Khu vực mẫu CV</div>
+                <TemplatePanel />
             </div>
-            {/* Khung bọc ngoài dùng để định vị */}
-            {showPDF && (
-                <div className="w-full h-full min-h-[800px] border-2 border-dashed border-gray-200 rounded-lg overflow-hidden relative">
-                    {/* PDFViewer chiếm 100% không gian của khung bọc */}
-                    <PDFViewer
-                        width="100%"
-                        height="100%"
-                        showToolbar={false}
-                        className="absolute inset-0 border-none"
-                    >
-                        <MyCVDocument cvData={cvData} />
-                    </PDFViewer>
-                </div>
-            )}
-        </>
+        </div>
     );
 }
 
-export default Resume;
+export default ResumeGeneratePage;

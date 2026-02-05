@@ -5,15 +5,12 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import instance from './config/axios';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from './features/modal/userSlice';
+import { setUser, removeUser } from './features/modal/userSlice';
 import { publicRoutes } from './router';
-import {
-    useQuery,
-    useMutation,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import LoginPage from './pages/LoginPage';
+
+import RegisterPage from './pages/RegisterPage';
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
@@ -27,6 +24,8 @@ function App() {
                 if (userInfo) {
                     dispatch(setUser(userInfo.data.result));
                 }
+            } else {
+                dispatch(removeUser());
             }
         }
     };
@@ -42,6 +41,8 @@ function App() {
                 >
                     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
                         <Routes>
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route path="/register" element={<RegisterPage />} />
                             {publicRoutes.map((route, index) => (
                                 <Route
                                     key={index}

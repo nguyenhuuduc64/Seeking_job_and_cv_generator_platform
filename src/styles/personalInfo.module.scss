@@ -1,0 +1,82 @@
+/* PersonalInfo.module.scss */
+
+.personalInfoBlock {
+    width: 100%;
+    background-color: white;
+    margin-bottom: 2rem;
+}
+
+.avatarContainer {
+    width: 150px;
+    height: 180px;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    position: relative;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.fullNameInput {
+    font-size: 24pt;
+    font-weight: 900;
+    color: black;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.positionInput {
+    font-size: 11pt;
+    font-weight: 500;
+    color: #4b5563;
+    font-style: italic;
+}
+
+.infoLabel {
+    width: 95px;
+    font-size: 10pt;
+    font-weight: bold;
+    color: black;
+    vertical-align: top;
+    padding-bottom: 4px;
+}
+
+.infoValue {
+    font-size: 10pt;
+    color: #374151;
+    vertical-align: top;
+    padding-bottom: 4px;
+}
+
+/* Định dạng đặc trị khi IN */
+:global {
+    @media print {
+        .print-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+        }
+
+        [class*='fullNameInput'] {
+            font-size: 22pt !important;
+            font-weight: 900 !important;
+            margin-bottom: 2pt !important;
+        }
+
+        [class*='positionInput'] {
+            font-size: 11pt !important;
+            color: #4b5563 !important;
+            margin-bottom: 8pt !important;
+        }
+
+        .info-row td {
+            padding-bottom: 2pt !important;
+            line-height: 1.2 !important;
+        }
+    }
+}

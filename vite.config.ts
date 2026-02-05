@@ -1,7 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react-swc';
 
-// https://vite.dev/config/
+// BẮT BUỘC phải có 'export default' ở đây
 export default defineConfig({
-  plugins: [react()],
-})
+    plugins: [react()],
+    test: {
+        globals: true,
+        environment: 'jsdom',
+        setupFiles: './src/test/setup.ts',
+        // Nếu ông chủ có dùng alias như '@/', hãy thêm vào đây
+    },
+    server: {
+        host: true,
+        allowedHosts: ['openedx.id.vn'],
+    },
+});

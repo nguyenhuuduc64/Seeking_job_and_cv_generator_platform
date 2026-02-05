@@ -1,6 +1,8 @@
 import Home from '../pages/Home';
-import Resume from '../pages/Resume';
+import Resume from '../pages/ResumeGeneratePage';
 import Profile from '../pages/Profile';
+import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
 export const publicRoutes = [
     {
         path: '/',
@@ -13,5 +15,17 @@ export const publicRoutes = [
     {
         path: '/profile',
         element: Profile,
+    },
+    {
+        path: '/tao-cv/:id',
+        element: Resume,
+    },
+    {
+        path: '/login',
+        element: LoginPage,
+    },
+    {
+        path: '/register',
+        element: RegisterPage,
     },
 ];

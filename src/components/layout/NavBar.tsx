@@ -11,17 +11,20 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../app/store';
 import { removeUser } from '../../features/modal/userSlice';
 import { useNavigate } from 'react-router-dom';
+import instance from '../../config/axios';
 const Navbar = () => {
     const dispatch = useAppDispatch();
     const currentUser = useSelector((state: RootState) => state.user.user);
     const navigate = useNavigate();
     const handleLogin = () => {
-        dispatch(openForm('loginForm'));
+        navigate('/login');
+        //dispatch(openForm('loginForm'));
         console.log('mo form dang nhap');
     };
 
     const handleRegister = () => {
-        dispatch(openForm('registerForm'));
+        navigate('/register');
+        //dispatch(openForm('registerForm'));
         console.log('mo form dang ky');
     };
 
@@ -33,7 +36,7 @@ const Navbar = () => {
     const handleSubmitRegister = async (data: Record<string, unknown>) => {
         const { confirmPassword, ...signUpData } = data;
         try {
-            const response = await axios.post('http://localhost:8080/api/users', signUpData);
+            const response = await instance.post('/users', signUpData);
             console.log(response.data);
         } catch (error) {
             console.error(error);

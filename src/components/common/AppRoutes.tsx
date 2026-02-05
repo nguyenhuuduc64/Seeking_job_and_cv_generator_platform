@@ -1,11 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
 
     // Nếu có token, cho phép xem nội dung (children)
     // Nếu không, chuyển hướng về trang chủ hoặc trang login
-    return token ? <>{children}</> : <Navigate to="/" replace />;
+    return token ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

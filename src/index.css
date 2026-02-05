@@ -2,3 +2,65 @@
 :root {
     --background-default-color: #f5f5f5;
 }
+
+/* Thu nhỏ khung soạn thảo */
+.ck-editor__editable_inline {
+    /*min-height: 200px !important; 
+    max-height: 400px !important;
+    overflow-y: auto !important;*/
+}
+
+/* Thu nhỏ tổng thể container bên ngoài */
+.custom-editor-container {
+    /*width: 200px; 
+    height: 300px;
+    overflow-y: hidden;*/
+}
+
+@media print {
+    /* 1. Ẩn toàn bộ giao diện Grid và các thành phần thừa */
+    /* Chúng ta ẩn thẻ cha và chỉ hiện phần tử cần thiết */
+    body * {
+        visibility: hidden;
+    }
+
+    /* 2. Reset lại nền và layout để không còn vùng xám */
+    html,
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 3. Chỉ hiển thị vùng Editor (ck-content) và các thẻ con của nó */
+    .ck-content,
+    .ck-content * {
+        visibility: visible;
+    }
+
+    /* 4. Ép vùng CV tràn ra toàn bộ trang giấy A4 */
+    .ck-content {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 210mm !important; /* Chuẩn chiều rộng A4 */
+        min-height: 297mm !important;
+        padding: 15mm 20mm !important; /* Lề trong CV cho đẹp */
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important; /* Xóa bóng đổ tờ giấy */
+    }
+
+    /* 5. Ẩn thanh công cụ CKEditor và các nút bấm nếu chúng vô tình hiện lên */
+    .ck-toolbar,
+    button,
+    .flex.gap-2 {
+        display: none !important;
+    }
+
+    /* 6. Đảm bảo in được màu sắc và bảng biểu GPA 3.61/4 */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

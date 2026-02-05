@@ -1,5 +1,5 @@
 export interface CVType {
-    id: string;
+    id?: string;
     content: string;
     createdAt: string;
     updatedAt: string;
