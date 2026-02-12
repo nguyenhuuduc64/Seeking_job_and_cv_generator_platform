@@ -11,10 +11,12 @@ export default function Profile() {
     const navigate = useNavigate();
     //ham lay danh sach cv
     const { data, isError, error } = useQuery({
-        queryKey: ['users'], // Key duy nhất để định danh dữ liệu này trong bộ nhớ đệm
+        queryKey: ['cvs'], // Key duy nhất để định danh dữ liệu này trong bộ nhớ đệm
         queryFn: () => instance.get('/cvs').then((res) => res.data),
         refetchOnWindowFocus: false,
     });
+
+
 
     useEffect(() => {
         if (isError) {
@@ -36,7 +38,7 @@ export default function Profile() {
                     <DocItem
                         item={item}
                         key={index}
-                        className="lg:w-[200px] lg:h-[300px] md:w-[200px] md:h-[300px] border border-gray-300"
+                        className="lg:w-[200px] lg:h-[283px] md:w-[200px] md:h-[283px] w-[150px] h-[212px] border border-gray-300 shadow-sm overflow-hidden bg-white relative group"
                     />
                 ))}
                 <div

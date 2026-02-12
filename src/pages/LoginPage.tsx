@@ -39,8 +39,7 @@ const LoginPage = () => {
                 if (response.data?.result?.token) {
                     localStorage.setItem('accessToken', response.data.result.token);
                     console.log('token: ', response.data.result.token);
-                    navigate('/');
-                    //window.location.reload();
+                    window.location.href = '/';
                 }
             } catch (error: any) {
                 console.error(error.response?.data || error.message);

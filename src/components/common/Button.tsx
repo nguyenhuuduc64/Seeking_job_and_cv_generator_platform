@@ -1,33 +1,34 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import  type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 interface ButtonProps {
   name: string;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'orange';
   icon?: IconDefinition;
   className?: string; // Để ông chủ có thể ghi đè CSS khi cần
   type?: 'button' | 'submit' | 'reset';
 }
 
-const Button = ({ 
-  name, 
-  onClick, 
-  variant = 'primary', 
-  icon, 
-  className = '', 
-  type = 'button' 
+const Button = ({
+  name,
+  onClick,
+  variant = 'primary',
+  icon,
+  className = '',
+  type = 'button'
 }: ButtonProps) => {
-  
+
   // Định nghĩa style mặc định theo từng "biến thể" (variant)
   const baseStyles = "flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-200 active:scale-95 shadow-sm cursor-pointer";
-  
+
   const variants = {
     primary: "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200",
     secondary: "bg-yellow-400 text-blue-900 hover:bg-yellow-300 shadow-yellow-100",
     outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
     ghost: "text-gray-600 hover:bg-gray-100 shadow-none",
     danger: "bg-red-500 text-white hover:bg-red-600 shadow-red-200",
+    orange: "bg-orange-500 text-white hover:bg-orange-600 shadow-orange-200",
   };
 
   return (

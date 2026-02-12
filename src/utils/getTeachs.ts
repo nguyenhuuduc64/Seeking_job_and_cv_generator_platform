@@ -26,7 +26,7 @@ export const analyzeRepo = async (repoUrl: string) => {
             );
 
             // 4. Gửi lên Spring Boot API
-            const response = await fetch(`${import.meta.env.VITE_API_BASEURL}/ai/analyze-tech`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/ai/analyze-tech`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

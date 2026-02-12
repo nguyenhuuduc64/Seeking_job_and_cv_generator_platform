@@ -16,4 +16,7 @@ module.exports = {
             padding: '1rem', // Thay thế cho px-4
         },
     },
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 };

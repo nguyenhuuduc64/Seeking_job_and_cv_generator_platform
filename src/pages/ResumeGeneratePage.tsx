@@ -7,6 +7,11 @@ import Resume from '../components/common/Resume';
 import Button from '../components/common/Button';
 import { faMagicWandSparkles } from '@fortawesome/free-solid-svg-icons';
 import TemplatePanel from '../components/common/TemplatePannel';
+import Toolbar from '@/components/common/toolbar/Toolbar';
+import { useEditor } from '@tiptap/react';
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+import StarterKit from '@tiptap/starter-kit'
 // Tạo Document tổng thể
 
 function ResumeGeneratePage() {
@@ -19,35 +24,37 @@ function ResumeGeneratePage() {
         refetchOnWindowFocus: false,
         enabled: !!id && id !== 'undefined',
     });
-
-    // ✅ CHIÊU THỨ NHẤT: Đồng bộ dữ liệu từ API vào State khi fetch xong
+    const editor = useEditor({
+        extensions: [StarterKit, Bold, Italic], // Đảm bảo extensions đầy đủ
+        content: cvData,
+    });
     useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            if (data?.result?.content) {
-                // Đổ dữ liệu từ API vào state để có thể chỉnh sửa
-                setCvData(data.result.content);
-            } else {
-                setCvData(dataCv);
-            }
-        }, 500);
-        console.log('data cv', dataCv);
-        return () => clearTimeout(timeOutId);
-    }, [data]);
+        if (isLoading) return;
+        const savedDraft = localStorage.getItem('cv_draft');
+        if (savedDraft) {
+            setCvData(JSON.parse(savedDraft));
+        } else if (id) {
+            setCvData(data?.result?.content);
+        } else {
+            setCvData(dataCv);
+        }
+
+
+    }, [data, isLoading, id]);
 
     const handleSave = async () => {
         const cleanContent = cvData.map(({ chosen, selected, ...rest }) => rest);
         const payload = {
             updatedAt: new Date().toISOString(),
             content: cleanContent,
-            // Đừng quên gửi ID nếu ông chủ đang dùng phương thức PUT
             id: id,
         };
         console.log(payload);
         try {
-            // Nếu có ID thì nên gọi PUT tới /cvs/{id} để cập nhật
             if (id) {
                 const response = await instance.put(`/cvs/${id}`, payload);
                 console.log(response);
+                localStorage.removeItem('cv_draft');
                 alert('Lưu thành công, thưa ông chủ!');
             } else {
                 const response = await instance.post('/cvs', payload);
@@ -63,7 +70,6 @@ function ResumeGeneratePage() {
 
     return (
         <div className="w-full bg-gray-100 py-10">
-            {/* Thêm container và căn giữa, px-10 hoặc px-20 tạo khoảng cách dày 2 bên */}
             <div className="container mx-auto px-10 md:px-20 flex gap-10">
                 <div className="flex-2">
                     <div className="flex gap-2 mb-4">
@@ -71,10 +77,17 @@ function ResumeGeneratePage() {
                         <Button onClick={() => resumeRef.current?.print()} name="Xuất File PDF" />
                         <Button name="AI Review" icon={faMagicWandSparkles} variant="secondary" />
                     </div>
-                    <Resume cvData={cvData} onItemsChange={setCvData} ref={resumeRef} />
-                </div>
+                    <div className="flex gap-10">
 
-                <TemplatePanel />
+
+                        <div className="relative">
+
+                            <Resume cvData={cvData} onItemsChange={setCvData} ref={resumeRef} />
+                        </div>
+                        <TemplatePanel />
+                    </div>
+
+                </div>
             </div>
         </div>
     );

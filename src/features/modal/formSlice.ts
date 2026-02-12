@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 interface FormState {
   openFormName: string | null;
+  formValues: any;
 }
 
 const initialState: FormState = {
   openFormName: null,
+  formValues: null,
 };
 /**
  * Khi người dùng dispatch 1 action thì payload được gửi đi là tên của form
@@ -22,9 +24,13 @@ const formSlice = createSlice({
     },
     closeForm: (state) => {
       state.openFormName = null;
+      state.formValues = null;
+    },
+    setFormValues: (state, action: PayloadAction<any>) => {
+      state.formValues = action.payload;
     },
   },
 });
 
-export const { openForm, closeForm } = formSlice.actions;
+export const { openForm, closeForm, setFormValues } = formSlice.actions;
 export default formSlice.reducer;

@@ -21,8 +21,9 @@ export interface FieldConfig {
 
 export interface SchemaFormProps {
   name: string;
-  schema: FieldConfig[];
+  schema?: FieldConfig[];
   onSubmit: (data: any) => void;
   className?: string;
   children?: React.ReactNode;
+  defaultValues?: Record<string, any>;
 }

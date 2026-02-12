@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import type { FieldConfig, SchemaFormProps } from '../../../types/SchemaFormTypes';
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
 import { closeForm } from '../../../features/modal/formSlice';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string}> = ({
+export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string }> = ({
   field,
   parentName,
 }) => {
@@ -13,7 +13,7 @@ export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string
     register,
     formState: { errors },
   } = useFormContext();
- 
+
   const fieldName = parentName ? `${parentName}.${field.name}` : field.name;
   if (field.children && field.children.length > 0) {
     return (
@@ -29,7 +29,7 @@ export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string
   const getError = (name: string, errors: any) => {
     return name.split('.').reduce((obj, key) => obj && obj[key], errors);
   };
-  
+
   const error = getError(fieldName, errors);
   const errorMessage = error?.message as string | undefined;
 
@@ -55,7 +55,7 @@ export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string
           id={fieldName}
           className={`${commonClasses} ${errorClasses} bg-white`}
           {...register(fieldName, field.validation)}
-          defaultValue=""
+          defaultValue={field.placeholder || 'Select an option'}
         >
           <option value="" disabled>
             {field.placeholder || 'Select an option'}
@@ -80,19 +80,34 @@ export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string
     </div>
   );
 };
+
+
 export const SchemaForm: React.FC<SchemaFormProps> = ({
   name,
   schema,
   onSubmit,
   className,
   children,
+  defaultValues
 }) => {
-  const methods = useForm();
-  const dispatch = useAppDispatch();
-
+  const methods = useForm({ defaultValues });
   const openFormName = useAppSelector(
     (state) => state.form.openFormName
   );
+  useEffect(() => {
+    if (openFormName === name) {
+      console.log('🔥 Form hiện lên rồi thưa ông chủ!');
+      console.log('Schema:', schema);
+      console.log('DefaultValues:', defaultValues);
+
+      if (defaultValues) {
+        methods.reset(defaultValues);
+      }
+    }
+  }, [openFormName, name, schema, defaultValues, methods]); // Thêm dependencies thưa ông chủ
+  const dispatch = useAppDispatch();
+
+
 
   // 👇 Redux quyết định render hay không
   if (openFormName !== name) return null;
@@ -104,7 +119,7 @@ export const SchemaForm: React.FC<SchemaFormProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <div className='w-screen h-screen fixed z-50 bg-black/50'>
+      <div className='fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm'>
 
         <form
           onSubmit={methods.handleSubmit((data) => {
@@ -115,22 +130,24 @@ export const SchemaForm: React.FC<SchemaFormProps> = ({
           className={`bg-white shadow-md rounded-lg p-6 fixed z-100 w-1/3 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${className || ''}`}
         >
           <div className="flex justify-end" onClick={handleCloseForm}>
-              <FontAwesomeIcon icon={faClose} className="text-lg w-12 h-12 cursor-pointer" />
+            <FontAwesomeIcon icon={faClose} className="text-lg w-12 h-12 cursor-pointer" />
           </div>
           <div className="space-y-4">
-            {schema.map((field) => (
+            {schema?.map((field) => (
               <SchemaFormField key={field.name} field={field} />
             ))}
           </div>
 
-          <div className="mt-6">
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Submit
-            </button>
-          </div>
+          {schema && (
+            <div className="mt-6">
+              <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Submit
+              </button>
+            </div>
+          )}
           {children}
         </form>
       </div>

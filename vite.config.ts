@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react-swc';
+import path from 'path';
 
 // BẮT BUỘC phải có 'export default' ở đây
 export default defineConfig({
@@ -13,5 +14,10 @@ export default defineConfig({
     server: {
         host: true,
         allowedHosts: ['openedx.id.vn'],
+    },
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./src"), // Ánh xạ @ vào thư mục src
+        },
     },
 });

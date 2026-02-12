@@ -34,6 +34,7 @@ function LoginForm() {
                         localStorage.setItem('accessToken', accessToken);
                     }
                 }
+                window.location.reload();
             } catch (error: any) {
                 console.error(error.response?.data || error.message);
             }

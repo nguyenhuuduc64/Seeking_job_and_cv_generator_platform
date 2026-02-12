@@ -46,5 +46,20 @@
             outline: none !important;
             resize: none !important;
         }
+
+        .print-footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            text-align: right;
+            font-size: 10px;
+            color: #9ca3af;
+            /* gray-400 */
+            padding-right: 20mm;
+            /* Khớp với padding của trang */
+            padding-bottom: 10mm;
+        }
     }
+
 }

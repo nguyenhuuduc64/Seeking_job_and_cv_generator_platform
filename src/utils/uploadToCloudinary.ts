@@ -5,6 +5,7 @@ const uploadImageToCloudinary = async (file: File) => {
     formData.append('cloud_name', 'dnecovspp');
 
     try {
+        console.log("Loại dữ liệu gửi đi:", file instanceof File ? "Đúng là File" : "Sai định dạng rồi!");
         const response = await fetch(`https://api.cloudinary.com/v1_1/dnecovspp/image/upload`, {
             method: 'POST',
             body: formData,

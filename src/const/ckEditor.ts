@@ -37,6 +37,7 @@ export const dataCv = [
             email: 'duc.nguyen@example.com',
             phone: '0123456789',
             address: 'Cần Thơ, Việt Nam',
+            avatarUrl: 'https://res.cloudinary.com/dnecovspp/image/upload/v1754741468/luan_van/x2z5q2q2q2q2q2q2q2q2.jpg',
         },
     },
 

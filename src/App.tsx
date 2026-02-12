@@ -6,11 +6,14 @@ import instance from './config/axios';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser, removeUser } from './features/modal/userSlice';
-import { publicRoutes } from './router';
+import { adminRoutes, privateRoutes, publicRoutes } from './router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoginPage from './pages/LoginPage';
-
+import PrivateRoute from './components/common/AppRoutes';
 import RegisterPage from './pages/RegisterPage';
+import Home from './pages/Home';
+import AdminLayout from './components/layout/AdminLayout';
+import { LayoutProvider } from './context/layout-provider';
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
@@ -40,21 +43,52 @@ function App() {
                     style={{ backgroundColor: 'var(--background-default-color)' }}
                 >
                     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-                        <Routes>
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/register" element={<RegisterPage />} />
-                            {publicRoutes.map((route, index) => (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        <DefaultLayout>
-                                            <route.element />
-                                        </DefaultLayout>
-                                    }
-                                />
-                            ))}
-                        </Routes>
+                        <LayoutProvider>
+                            <Routes>
+                                {/* NHÓM 1: PUBLIC ROUTES - Ai cũng vào được */}
+                                {publicRoutes.map((route, index) => (
+                                    <Route
+                                        key={`public-${index}`}
+                                        path={route.path}
+                                        element={
+                                            <DefaultLayout>
+                                                <route.element />
+                                            </DefaultLayout>
+                                        }
+                                    />
+                                ))}
+
+                                {/* NHÓM 2: PRIVATE ROUTES - Phải đăng nhập mới vào được */}
+                                {privateRoutes.map((route, index) => (
+                                    <Route
+                                        key={`private-${index}`}
+                                        path={route.path}
+                                        element={
+                                            <PrivateRoute> {/* Bọc bảo vệ ở đây */}
+                                                <DefaultLayout>
+                                                    <route.element />
+                                                </DefaultLayout>
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                ))}
+
+                                {/* NHÓM 3: ADMIN ROUTES - Chỉ admin mới vào được */}
+                                {adminRoutes.map((route, index) => (
+                                    <Route
+                                        key={`admin-${index}`}
+                                        path={route.path}
+                                        element={
+                                            <PrivateRoute>
+                                                <AdminLayout>
+                                                    <route.element />
+                                                </AdminLayout>
+                                            </PrivateRoute>
+                                        }
+                                    />
+                                ))}
+                            </Routes>
+                        </LayoutProvider>
                     </GoogleOAuthProvider>
                 </div>
             </BrowserRouter>

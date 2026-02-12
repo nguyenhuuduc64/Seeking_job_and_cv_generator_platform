@@ -52,8 +52,10 @@ const Navbar = () => {
                 {/* 1. Logo Group */}
                 <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
                     <div className="text-blue-600 text-3xl">
-                        {/* <img src="./src/assets/logo.png" alt="" className="w-25" /> */}
-                        <FontAwesomeIcon icon={faBoltLightning} />
+                        <h5 className="text-4xl font-bold">
+                            <span className="text-blue-600">Viec</span>
+                            <span className="text-orange-500">S</span>
+                        </h5>
                     </div>
                 </div>
 

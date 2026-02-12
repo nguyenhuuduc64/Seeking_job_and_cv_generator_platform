@@ -1,9 +1,25 @@
 {
     "files": [],
-    "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ],
     "compilerOptions": {
         "target": "ESNext",
-        "types": ["jest", "node"], // Thêm "jest" vào đây
-        "jsx": "react-jsx"
+        "types": [
+            "jest",
+            "node"
+        ], // Thêm "jest" vào đây
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        }
     }
 }

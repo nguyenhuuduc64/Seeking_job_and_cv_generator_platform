@@ -35,7 +35,7 @@ const HeroBanner = () => {
                     {/* Nút Tạo CV lấp lánh */}
                     <Button
                         name="Tạo CV"
-                        variant="secondary"
+                        variant="orange"
                         icon={faMagicWandSparkles}
                         onClick={() => navigate('/profile')}
                     />
