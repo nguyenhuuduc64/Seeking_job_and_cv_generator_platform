@@ -47,6 +47,8 @@ const ObjectiveInputBlock: React.FC<Props> = ({ data, onDataChange, onDelete }) 
         }
     };
 
+
+
     if (!editor) return null;
 
     return (

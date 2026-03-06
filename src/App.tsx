@@ -3,10 +3,10 @@ import './index.css';
 import DefaultLayout from './components/layout/DefaultLayout';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import instance from './config/axios';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser, removeUser } from './features/modal/userSlice';
-import { adminRoutes, privateRoutes, publicRoutes } from './router';
+import { adminRoutes, privateRoutes, publicRoutes, recruiterRoutes } from './router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoginPage from './pages/LoginPage';
 import PrivateRoute from './components/common/AppRoutes';
@@ -14,11 +14,20 @@ import RegisterPage from './pages/RegisterPage';
 import Home from './pages/Home';
 import AdminLayout from './components/layout/AdminLayout';
 import { LayoutProvider } from './context/layout-provider';
+import { createContext } from 'react';
+import { TitleContextType } from './types/title';
+import RoleBasedRoute from './components/common/RolePasedRoute';
+export const TitleContext = createContext<TitleContextType | undefined>(undefined);
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
+
     const getMyInfo = async () => {
         const token = localStorage.getItem('accessToken');
+        if (!token) {
+            dispatch(removeUser()); // Tắt isChecking
+            return;
+        }
         if (token) {
             const response = await instance.post('/auth/introspect', { token: token });
             if (response.data.result.valid) {
@@ -26,12 +35,16 @@ function App() {
                 const userInfo = await instance.get('/users/my-info');
                 if (userInfo) {
                     dispatch(setUser(userInfo.data.result));
+                    console.log('da set user', userInfo.data.result);
                 }
             } else {
                 dispatch(removeUser());
             }
         }
     };
+
+
+
     useEffect(() => {
         getMyInfo();
     }, []);
@@ -64,11 +77,9 @@ function App() {
                                         key={`private-${index}`}
                                         path={route.path}
                                         element={
-                                            <PrivateRoute> {/* Bọc bảo vệ ở đây */}
-                                                <DefaultLayout>
-                                                    <route.element />
-                                                </DefaultLayout>
-                                            </PrivateRoute>
+                                            <DefaultLayout>
+                                                <route.element />
+                                            </DefaultLayout>
                                         }
                                     />
                                 ))}
@@ -79,11 +90,26 @@ function App() {
                                         key={`admin-${index}`}
                                         path={route.path}
                                         element={
-                                            <PrivateRoute>
+                                            <RoleBasedRoute requiredRole="ADMIN">
                                                 <AdminLayout>
                                                     <route.element />
                                                 </AdminLayout>
-                                            </PrivateRoute>
+                                            </RoleBasedRoute>
+                                        }
+                                    />
+                                ))}
+
+                                {/* NHÓM 4: RECRUITER ROUTES - Chỉ recruiter mới vào được */}
+                                {recruiterRoutes.map((route, index) => (
+                                    <Route
+                                        key={`recruiter-${index}`}
+                                        path={route.path}
+                                        element={
+                                            <RoleBasedRoute requiredRole="RECRUITER">
+                                                <AdminLayout>
+                                                    <route.element />
+                                                </AdminLayout>
+                                            </RoleBasedRoute>
                                         }
                                     />
                                 ))}

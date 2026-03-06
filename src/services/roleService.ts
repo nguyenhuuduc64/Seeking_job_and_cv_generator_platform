@@ -26,4 +26,24 @@ export class RoleService {
         console.warn("Chưa đăng nhập, không thể lấy danh sách Role!");
         return [];
     }
+
+    static async addRole(data: any) {
+        try {
+            const response = await instance.post(`/roles`, data);
+            return response.data;
+        } catch (error) {
+            console.error("Lỗi thêm Role thưa ông chủ:", error);
+            return null;
+        }
+    }
+
+    static async deleteRole(roleName: string) {
+        try {
+            const response = await instance.delete(`/roles/${roleName}`);
+            return response.data;
+        } catch (error) {
+            console.error("Lỗi xóa Role thưa ông chủ:", error);
+            return null;
+        }
+    }
 }

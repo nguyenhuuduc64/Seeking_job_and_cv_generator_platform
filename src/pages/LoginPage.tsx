@@ -49,7 +49,7 @@ const LoginPage = () => {
     });
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-white overflow-hidden">
+        <div className="fixed inset-0 flex items-center justify-center bg-white overflow-hidden" style={{ zIndex: 1000 }}>
             <div className="flex w-full h-full overflow-hidden">
                 {/* CỘT TRÁI: WELCOME (Màu xanh) */}
                 <div className="relative hidden w-1/2 flex-col justify-center bg-blue-600 p-16 text-white md:flex leading-tight">

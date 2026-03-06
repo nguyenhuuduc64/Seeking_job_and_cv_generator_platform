@@ -12,6 +12,7 @@ import CertificateInputBlock from '../template/react-to-print/CertificateInputBl
 import styles from '../../styles/resume.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { handleAIReview } from '@/utils/resume';
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +23,7 @@ interface ResumeProps {
 }
 
 const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, ref: Ref<any>) => {
-    const componentRef = useRef<HTMLDivElement>(null);
+    const componentRef = useRef<HTMLDivElement>(null!);
     const handleUpdateBlockData = (blockId: string, newData: any) => {
         const updatedCvData = cvData.map((block) =>
             block.id === blockId ? { ...block, data: newData } : block
@@ -34,9 +35,12 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
         contentRef: componentRef,
         documentTitle: `CV_DUC_${Date.now()}`,
     });
-
+    const handleGetMark = () => {
+        handleAIReview(componentRef);
+    }
     useImperativeHandle(ref, () => ({
         print: () => handlePrint(),
+        aiReview: () => handleGetMark(),
     }));
 
     const handleRemoveBlock = (blockId: string) => {

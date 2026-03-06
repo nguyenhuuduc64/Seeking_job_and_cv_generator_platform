@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { userFields, type UserType } from "@/types";
+import { getUserFields, type UserType } from "@/types";
 import { UserService, } from "@/services/userService";
 import { DataTable } from "./users/data-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import type { FieldConfig } from "@/types/SchemaFormTypes";
 import { SchemaForm } from "@/components/common/forms/SchemaForm";
 import { useAppDispatch } from "@/hooks/redux";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,12 +17,24 @@ import { closeForm, openForm, setFormValues } from "@/features/modal/formSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faChevronDown, faTrashAlt, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { TitleContext } from "@/App";
 const UserManagement = () => {
     const dispatch = useAppDispatch();
     const queryClient = useQueryClient();
     const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
     const [deleteId, setDeleteId] = useState<string | number>('');
     const navigate = useNavigate();
+    // Tạo state để giữ danh sách field sau khi đã có roles thưa ông chủ
+    const [dynamicFields, setDynamicFields] = useState<FieldConfig[]>([]);
+    // Chạy một lần duy nhất khi mount để lấy các field hoàn chỉnh
+    useEffect(() => {
+        const initFields = async () => {
+            const fields = await getUserFields(); // Gọi hàm async của ông chủ
+            setDynamicFields(fields);
+        };
+        initFields();
+    }, []);
     const fetchUsers = async () => {
         const response = await UserService.getUsers();
         console.log(response);
@@ -82,14 +95,18 @@ const UserManagement = () => {
 
     return (
         <div className="space-y-6 p-6">
-            <SchemaForm name="userForm" schema={userFields} onSubmit={handleCreateUser} />
-            <SchemaForm
-                name="updateUserForm"
-                schema={userFields}
-                onSubmit={handleUpdateUser}
-                defaultValues={formValues}
-                key={selectedUser?.id} // Quan trọng để reset form
-            />
+            {dynamicFields.length > 0 && (
+                <>
+                    <SchemaForm name="userForm" schema={dynamicFields} onSubmit={handleCreateUser} />
+                    <SchemaForm
+                        name="updateUserForm"
+                        schema={dynamicFields}
+                        onSubmit={handleUpdateUser}
+                        defaultValues={formValues}
+                        key={selectedUser?.id}
+                    />
+                </>
+            )}
             <SchemaForm name="deleteUserForm" onSubmit={handleDeleteUser}>
                 <div className="flex flex-col space-y-4">
                     {/* Header: Icon và Tiêu đề thưa ông chủ */}
@@ -125,9 +142,7 @@ const UserManagement = () => {
                     </div>
                 </div>
             </SchemaForm>
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold tracking-tight text-blue-900">Quản lý người dùng</h1>
-            </div>
+
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 {/* Bảng danh sách - Chiếm 3/4 chiều ngang */}

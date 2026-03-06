@@ -1,21 +1,33 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoltLightning, faChevronDown, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faBoltLightning, faChevronDown, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { registerSchema } from '../../features/modal/types';
 import { SchemaForm } from '../../components/common/forms/SchemaForm';
 import { useAppDispatch } from '../../hooks/redux';
 import { openForm } from '../../features/modal/formSlice';
 import axios from 'axios';
 import LoginForm from '../common/forms/LoginForm';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../app/store';
 import { removeUser } from '../../features/modal/userSlice';
 import { useNavigate } from 'react-router-dom';
 import instance from '../../config/axios';
+import Menu from '../common/Menu';
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { Button } from '../ui/button';
+import { DropdownMenu } from '../ui/dropdown-menu';
+
+
+interface ItemType {
+    name: string;
+    onClick: () => void;
+}
 const Navbar = () => {
+    const [userMenu, setUserMenu] = useState(false);
     const dispatch = useAppDispatch();
     const currentUser = useSelector((state: RootState) => state.user.user);
     const navigate = useNavigate();
+    const [menuItems, setMenuItems] = useState<ItemType[]>([]);
     const handleLogin = () => {
         navigate('/login');
         //dispatch(openForm('loginForm'));
@@ -45,6 +57,32 @@ const Navbar = () => {
 
     useEffect(() => {
         console.log('thong tin nguoi dung ben header', currentUser);
+        switch (currentUser?.roles.name) {
+            case 'admin':
+                setMenuItems([
+                    { name: 'Profile', onClick: () => navigate('/profile') },
+                    { name: 'Settings', onClick: () => navigate('/settings') },
+                    { name: 'Logout', onClick: handleLogout },
+                ]);
+                break;
+            case 'user':
+                setMenuItems([
+                    { name: 'Profile', onClick: () => navigate('/profile') },
+                    { name: 'Settings', onClick: () => navigate('/settings') },
+                    { name: 'Logout', onClick: handleLogout },
+                ]);
+                break;
+            case 'recruiter':
+                setMenuItems([
+                    { name: 'Profile', onClick: () => navigate('/profile') },
+                    { name: 'Quản lý công ty', onClick: () => navigate('/tuyen-dung') },
+                    { name: 'Settings', onClick: () => navigate('/settings') },
+                    { name: 'Logout', onClick: handleLogout },
+                ]);
+                break;
+            default:
+                break;
+        }
     }, [currentUser]);
     return (
         <>
@@ -103,11 +141,33 @@ const Navbar = () => {
                 )}
 
                 {currentUser && (
-                    <div className="flex items-center gap-2 cursor-pointer">
-                        <p>{currentUser.fullName}</p>
-                        <FontAwesomeIcon icon={faSignOut} onClick={handleLogout} />
+                    <div className="flex items-center cursor-pointer" >
+
+
+                        <div className='flex items-center'>
+                            <Menu defaultName={currentUser.fullName} items={menuItems} />
+                            <FontAwesomeIcon icon={faAngleDown} className='text-gray-500 mr-4' />
+                        </div>
+                        <div className="flex items-center space-x-3 border-l-2 border-gray-200 pl-4">
+                            <div className="flex flex-col">
+                                <p className="text-gray-500 text-[10px] font-light">
+                                    Bạn là nhà tuyển dụng?
+                                </p>
+                                <a
+                                    href="/dang-ky-tuyen-dung"
+                                    className=" font-bold text-[12px] flex items-center hover:text-[#008e3f] transition-colors"
+                                    style={{ color: 'var(--primary-color)' }}
+                                >
+                                    Đăng ký ngay
+
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 )}
+
+
+
             </nav>
 
             <LoginForm />

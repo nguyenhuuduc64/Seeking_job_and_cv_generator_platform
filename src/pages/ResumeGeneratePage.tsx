@@ -12,6 +12,8 @@ import { useEditor } from '@tiptap/react';
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import StarterKit from '@tiptap/starter-kit'
+import { getmarkCv, handleAIReview } from '@/utils/resume';
+import { toPng } from 'html-to-image';
 // Tạo Document tổng thể
 
 function ResumeGeneratePage() {
@@ -66,6 +68,8 @@ function ResumeGeneratePage() {
         }
     };
 
+
+
     if (isLoading) return <div>Đang tải dữ liệu của ông chủ...</div>;
 
     return (
@@ -75,7 +79,8 @@ function ResumeGeneratePage() {
                     <div className="flex gap-2 mb-4">
                         <Button onClick={handleSave} name="Lưu CV" />
                         <Button onClick={() => resumeRef.current?.print()} name="Xuất File PDF" />
-                        <Button name="AI Review" icon={faMagicWandSparkles} variant="secondary" />
+                        <Button name="AI Review" icon={faMagicWandSparkles} variant="secondary" onClick={() => resumeRef.current?.aiReview()} />
+
                     </div>
                     <div className="flex gap-10">
 

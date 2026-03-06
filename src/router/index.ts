@@ -2,10 +2,16 @@ import Home from '../pages/Home';
 import Resume from '../pages/ResumeGeneratePage';
 import Profile from '../pages/Profile';
 import LoginPage from '../pages/LoginPage';
+import LoginPageTest from '@/pages/LoginPageTest';
 import RegisterPage from '../pages/RegisterPage';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import UserManagement from '@/pages/admin/UserManagement';
 import DetailUser from '@/pages/admin/DetailUser';
+import CVDesigner from '@/components/template/CVDesigner';
+import RoleManagermentPage from '@/pages/admin/RoleManagermentPage';
+import RecruiterPage from '@/pages/recruiter/RecruiterPage';
+import RecruiterRegistrationpage from '@/pages/RecruiterRegistrationpage';
+import ConfirmPage from '@/pages/admin/ConfirmPage';
 export const publicRoutes = [
     {
         path: '/',
@@ -19,6 +25,14 @@ export const publicRoutes = [
         path: '/register',
         element: RegisterPage,
     },
+    {
+        path: '/test',
+        element: CVDesigner,
+    },
+    {
+        path: '/dang-ky-tuyen-dung',
+        element: RecruiterRegistrationpage,
+    }
 ];
 
 export const privateRoutes = [
@@ -48,5 +62,20 @@ export const adminRoutes = [
     {
         path: '/admin/nguoi-dung/:id',
         element: DetailUser,
+    },
+    {
+        path: '/admin/phan-quyen',
+        element: RoleManagermentPage,
+    },
+    {
+        path: '/admin/xac-nhan/nha-tuyen-dung',
+        element: ConfirmPage,
     }
-]; 
+];
+
+export const recruiterRoutes = [
+    {
+        path: '/tuyen-dung',
+        element: RecruiterPage,
+    }
+];

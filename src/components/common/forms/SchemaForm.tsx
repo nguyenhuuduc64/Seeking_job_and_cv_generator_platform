@@ -55,7 +55,6 @@ export const SchemaFormField: React.FC<{ field: FieldConfig; parentName?: string
           id={fieldName}
           className={`${commonClasses} ${errorClasses} bg-white`}
           {...register(fieldName, field.validation)}
-          defaultValue={field.placeholder || 'Select an option'}
         >
           <option value="" disabled>
             {field.placeholder || 'Select an option'}
@@ -90,10 +89,10 @@ export const SchemaForm: React.FC<SchemaFormProps> = ({
   children,
   defaultValues
 }) => {
-  const methods = useForm({ defaultValues });
   const openFormName = useAppSelector(
     (state) => state.form.openFormName
   );
+  const methods = useForm({ defaultValues });
   useEffect(() => {
     if (openFormName === name) {
       console.log('🔥 Form hiện lên rồi thưa ông chủ!');

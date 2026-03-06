@@ -24,81 +24,60 @@ import {
 } from "@/components/ui/collapsible"
 import { Link } from "react-router-dom"
 
-const menuData = [
+const recruiterMenuData = [
     {
         title: "Bảng điều khiển",
-        url: "/admin",
+        url: "/tuyen-dung", // Trang Dashboard dành riêng cho Recruiter
         icon: LayoutDashboard,
     },
     {
-        title: "Hệ thống Tuyển dụng",
+        title: "Quản lý tuyển dụng",
         url: "#",
         icon: Briefcase,
-        isActive: true, // Mặc định mở mục này
+        isActive: true,
         items: [
-            { title: "Tin tuyển dụng", url: "/admin/jobs" },
-            { title: "Công ty đối tác", url: "/admin/companies" },
-            { title: "Duyệt tin mới", url: "/admin/jobs/pending" },
+            { title: "Tin đã đăng", url: "/tuyen-dung/jobs" },
+            { title: "Đăng tin mới", url: "/tuyen-dung/jobs/create" },
         ],
     },
     {
-        title: "Quản lý Hồ sơ (CV)",
+        title: "Quản lý Ứng viên",
         url: "#",
         icon: FileText,
         items: [
-            { title: "Tất cả CV ứng viên", url: "/admin/cvs" },
-            { title: "Mẫu CV hệ thống", url: "/admin/cv-templates" },
-            { title: "Báo cáo vi phạm", url: "/admin/cvs/reports" },
+            { title: "Ứng viên ứng tuyển", url: "/tuyen-dung/candidates" },
         ],
     },
     {
-        title: "Người dùng & Bảo mật",
+        title: "Hồ sơ Công ty",
         url: "#",
-        icon: ShieldCheck,
+        icon: FileText, // Icon phù hợp hơn cho Công ty
         items: [
-            { title: "Danh sách người dùng", url: "/admin/nguoi-dung" },
-            { title: "Phân quyền (Roles)", url: "/admin/phan-quyen" },
+            { title: "Thông tin công ty", url: "/tuyen-dung/company-profile" },
         ],
     },
     {
-        title: "Yêu cầu xác nhận",
-        url: "#",
-        icon: ShieldCheck,
-        items: [
-            { title: "Nhà tuyển dụng", url: "/admin/xac-nhan/nha-tuyen-dung" },
-        ],
-    },
-    {
-        title: "Tài chính & Gói dịch vụ",
-        url: "#",
-        icon: CreditCard,
-        items: [
-            { title: "Lịch sử giao dịch", url: "/admin/transactions" },
-            { title: "Quản lý gói đăng tin", url: "/admin/subscriptions" },
-        ],
-    },
-    {
-        title: "Báo cáo & Phân tích",
-        url: "/admin/analytics",
+        title: "Báo cáo tuyển dụng",
+        url: "/tuyen-dung/analytics",
         icon: PieChart,
     },
     {
-        title: "Hỗ trợ khách hàng",
+        title: "Tin nhắn & Hỗ trợ",
         url: "#",
         icon: MessageSquare,
         items: [
-            { title: "Phản hồi (Feedback)", url: "/admin/feedback" },
-            { title: "Câu hỏi thường gặp", url: "/admin/faqs" },
+            { title: "Chat với ứng viên", url: "/tuyen-dung/messages" },
+            { title: "Yêu cầu hỗ trợ", url: "/tuyen-dung/support" },
         ],
     },
     {
-        title: "Cấu hình hệ thống",
-        url: "/admin/settings",
+        title: "Cài đặt tài khoản",
+        url: "/tuyen-dung/settings",
         icon: Settings,
     },
 ]
 
-export function AdminSidebar() {
+export function RecruiterSidebar() {
     const { open } = useSidebar() // Kiểm tra trạng thái đóng/mở
 
     return (
@@ -118,7 +97,7 @@ export function AdminSidebar() {
                     </SidebarGroupLabel>
 
                     <SidebarMenu>
-                        {menuData.map((item) => (
+                        {recruiterMenuData.map((item) => (
                             <SidebarMenuItem key={item.title}>
                                 {item.items ? (
                                     <Collapsible
