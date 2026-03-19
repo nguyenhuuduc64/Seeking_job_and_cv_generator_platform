@@ -12,11 +12,16 @@ import RoleManagermentPage from '@/pages/admin/RoleManagermentPage';
 import RecruiterPage from '@/pages/recruiter/RecruiterPage';
 import RecruiterRegistrationpage from '@/pages/RecruiterRegistrationpage';
 import ConfirmPage from '@/pages/admin/ConfirmPage';
+import CompanyDetailPage from '@/pages/recruiter/CompanyDetailPage';
+import JobManagementPage from '@/pages/recruiter/JobManagementPage';
+import JobCreatePage from '@/pages/recruiter/JobCreatePage';
+
 export const publicRoutes = [
     {
         path: '/',
         element: Home,
     },
+
     {
         path: '/login',
         element: LoginPage,
@@ -52,7 +57,7 @@ export const privateRoutes = [
 
 export const adminRoutes = [
     {
-        path: '/admin',
+        path: '/admin/dashboard',
         element: AdminDashboard,
     },
     {
@@ -77,5 +82,24 @@ export const recruiterRoutes = [
     {
         path: '/tuyen-dung',
         element: RecruiterPage,
+    },
+    {
+        path: '/tuyen-dung/thong-tin-cong-ty',
+        element: CompanyDetailPage,
+    },
+    {
+        path: '/tuyen-dung/cong-viec',
+        element: JobManagementPage,
+    },
+    {
+        path: '/tuyen-dung/cong-viec/tao-tin-tuyen-dung',
+        element: JobCreatePage,
     }
 ];
+
+export const userRoutes = [
+    {
+        path: '/',
+        element: Home,
+    },
+]

@@ -23,10 +23,19 @@ const RoleBasedRoute = ({ children, requiredRole }: RoleBasedRouteProps) => {
     // TRƯỜNG HỢP 2: ĐANG TẢI DỮ LIỆU USER
     // Nếu đã auth nhưng dữ liệu user trong Redux chưa kịp đổ về (null/undefined)
     // Phải chặn lại để tránh lỗi "cannot read property of undefined"
-    if (!user || !user.roles) {
-        return <div className="flex h-screen items-center justify-center font-bold">
-            Đang tải thông tin quyền hạn...
-        </div>;
+    // 2a. Nếu thực sự không có user (sau khi Logout hoặc chưa Login)
+    if (!user) {
+        console.log("Không có user -> Trả về Login");
+        return <Navigate to="/" replace />;
+    }
+
+    // 2b. Có user nhưng dữ liệu Role chưa kịp load (Phòng trường hợp API chậm)
+    if (!user.roles) {
+        return (
+            <div className="flex h-screen items-center justify-center font-bold">
+                Đang tải thông tin quyền hạn...
+            </div>
+        );
     }
 
     // Lấy Role và chuẩn hóa thành chữ HOA
@@ -48,9 +57,10 @@ const RoleBasedRoute = ({ children, requiredRole }: RoleBasedRouteProps) => {
             return <Navigate to="/tuyen-dung" replace />;
         }
 
-        // 3c. Người dùng thường đi lạc: Đá về trang chủ
-        alert('User đi lạc');
-        return <Navigate to="/" replace />;
+        if (currentRole === 'USER') {
+            alert('User đi lạc');
+            return <Navigate to="/" replace />;
+        }
     }
 
     // TRƯỜNG HỢP 4: KHỚP ROLE

@@ -6,7 +6,7 @@ import instance from './config/axios';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser, removeUser } from './features/modal/userSlice';
-import { adminRoutes, privateRoutes, publicRoutes, recruiterRoutes } from './router';
+import { adminRoutes, privateRoutes, publicRoutes, recruiterRoutes, userRoutes } from './router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoginPage from './pages/LoginPage';
 import PrivateRoute from './components/common/AppRoutes';
@@ -109,6 +109,21 @@ function App() {
                                                 <AdminLayout>
                                                     <route.element />
                                                 </AdminLayout>
+                                            </RoleBasedRoute>
+                                        }
+                                    />
+                                ))}
+
+                                {/* NHÓM 5: USER ROUTES - Chỉ user mới vào được */}
+                                {userRoutes.map((route, index) => (
+                                    <Route
+                                        key={`user-${index}`}
+                                        path={route.path}
+                                        element={
+                                            <RoleBasedRoute requiredRole="USER">
+                                                <DefaultLayout>
+                                                    <route.element />
+                                                </DefaultLayout>
                                             </RoleBasedRoute>
                                         }
                                     />

@@ -1,15 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Upload, FileCheck, ShieldCheck, ArrowLeft, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import uploadImageToCloudinary from '../utils/uploadToCloudinary';
 import instance from '@/config/axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleLeft, faAngleLeft, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 export default function RecruiterRegistrationPage() {
     const navigate = useNavigate();
     const [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
+    const user = useSelector((state: any) => state.user.user);
+
+    useEffect(() => {
+        console.log("user", user)
+        if (user?.roles == 'recruiter') {
+            navigate('/tuyen-dung');
+        }
+    }, [user]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -59,19 +68,27 @@ export default function RecruiterRegistrationPage() {
                     <div className="p-8">
                         {/* Quy trình tóm tắt */}
                         <div className="grid grid-cols-3 gap-4 mb-10 text-center">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center cursor-pointer">
                                 <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2">
                                     <FileCheck className="w-5 h-5" />
                                 </div>
                                 <span className="text-xs text-gray-500">Gửi giấy phép</span>
                             </div>
-                            <div className="flex flex-col items-center">
-                                <div className="w-10 h-10 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2">
-                                    <ShieldCheck className="w-5 h-5" />
-                                </div>
+                            <div className="flex flex-col items-center cursor-pointer">
+                                {user?.roles?.name == 'recruiter' ? (
+                                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2">
+                                        <ShieldCheck className="w-5 h-5" />
+                                    </div>
+                                ) : (
+                                    <div className="w-10 h-10 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2">
+                                        <ShieldCheck className="w-5 h-5" />
+                                    </div>
+                                )}
                                 <span className="text-xs text-gray-500">Admin xác minh</span>
                             </div>
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center cursor-pointer"
+                                onClick={() => navigate("/tuyen-dung")}
+                            >
                                 <div className="w-10 h-10 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2">
                                     <Upload className="w-5 h-5" />
                                 </div>

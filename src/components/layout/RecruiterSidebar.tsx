@@ -36,8 +36,8 @@ const recruiterMenuData = [
         icon: Briefcase,
         isActive: true,
         items: [
-            { title: "Tin đã đăng", url: "/tuyen-dung/jobs" },
-            { title: "Đăng tin mới", url: "/tuyen-dung/jobs/create" },
+            { title: "Tin đã đăng", url: "/tuyen-dung/cong-viec" },
+            { title: "Đăng tin mới", url: "/tuyen-dung/cong-viec/tao-tin-tuyen-dung" },
         ],
     },
     {
@@ -53,7 +53,7 @@ const recruiterMenuData = [
         url: "#",
         icon: FileText, // Icon phù hợp hơn cho Công ty
         items: [
-            { title: "Thông tin công ty", url: "/tuyen-dung/company-profile" },
+            { title: "Thông tin công ty", url: "/tuyen-dung/thong-tin-cong-ty" },
         ],
     },
     {
@@ -81,7 +81,7 @@ export function RecruiterSidebar() {
     const { open } = useSidebar() // Kiểm tra trạng thái đóng/mở
 
     return (
-        <Sidebar collapsible="icon" className="relative "> {/* Thêm icon mode để không bị đè Header */}
+        <Sidebar collapsible="icon" className="relative"> {/* Thêm icon mode để không bị đè Header */}
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel className="px-4 py-8 h-auto">

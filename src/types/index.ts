@@ -102,3 +102,15 @@ export const addRoleField: FieldConfig[] = [
         }
     }
 ];
+
+export interface RecruiterRegistrationResponse {
+    id: string;                // ID của yêu cầu (thường là UUID)
+    businessLicenseUrl: string; // Link ảnh giấy phép từ Cloudinary
+    status: 'PENDING' | 'APPROVED' | 'REJECTED'; // Trạng thái dùng kiểu String Enum
+    userId: string;            // ID của người gửi
+    userFullName: string;      // Tên đầy đủ để hiển thị lên bảng
+    userEmail: string;         // Email để Admin liên hệ nếu cần
+    createdAt: string;         // Ngày gửi (Dạng ISO string từ Backend)
+    processedAt?: string;      // Ngày xử lý (có thể null nếu chưa duyệt)
+    note?: string;             // Ghi chú của người dùng
+}
