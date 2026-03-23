@@ -19,12 +19,10 @@ import { faAngleRight, faChevronDown, faTrashAlt, faTriangleExclamation } from "
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { TitleContext } from "@/App";
-import { JobCrategoryField } from "@/types/JobType";
-import { JobCategoryType } from "@/types/JobType";
 const UserManagement = () => {
     const dispatch = useAppDispatch();
     const queryClient = useQueryClient();
-    const [selectedUser, setSelectedUser] = useState<JobCategoryType | null>(null);
+    const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
     const [deleteId, setDeleteId] = useState<string | number>('');
     const navigate = useNavigate();
     // Tạo state để giữ danh sách field sau khi đã có roles thưa ông chủ
@@ -32,8 +30,8 @@ const UserManagement = () => {
     // Chạy một lần duy nhất khi mount để lấy các field hoàn chỉnh
     useEffect(() => {
         const initFields = async () => {
-            const fields = JobCrategoryField; // Gọi hàm async của ông chủ
-            setDynamicFields([fields]);
+            const fields = await getUserFields(); // Gọi hàm async của ông chủ
+            setDynamicFields(fields);
         };
         initFields();
     }, []);
@@ -48,7 +46,7 @@ const UserManagement = () => {
         queryFn: fetchUsers, // Hàm thực hiện gọi API
     })
 
-    const handleRowClick = (row: JobCategoryType) => {
+    const handleRowClick = (row: UserType) => {
         console.log(row);
         setSelectedUser(row);
     };
@@ -65,22 +63,23 @@ const UserManagement = () => {
         queryClient.invalidateQueries({ queryKey: ['users'] });
     }
 
-    const handleOpenEditForm = (jobCategory: JobCategoryType) => {
+    const handleOpenEditForm = (user: UserType) => {
         // 💡 Chỉ lấy đúng cái giá trị "user" hoặc "admin" thưa ông chủ
         const dataForForm = {
-            ...jobCategory,
+            ...user,
+            roles: user.roles?.name // Kết quả: "user" (chuỗi thuần túy)
         };
 
         // Gửi dữ liệu "sạch" vào Redux
         dispatch(setFormValues(dataForForm));
 
-        setSelectedUser(jobCategory);
-        dispatch(openForm("updateJobCategoryForm"));
+        setSelectedUser(user);
+        dispatch(openForm("updateUserForm"));
     };
 
     const handleOpenDeleteForm = (id: string | number) => {
         setDeleteId(id);
-        dispatch(openForm('deleteJobCategoryForm'));
+        dispatch(openForm('deleteUserForm'));
     }
 
     const handleDeleteUser = async () => {
@@ -100,7 +99,7 @@ const UserManagement = () => {
                 <>
                     <SchemaForm name="userForm" schema={dynamicFields} onSubmit={handleCreateUser} />
                     <SchemaForm
-                        name="updateJobCategoryForm"
+                        name="updateUserForm"
                         schema={dynamicFields}
                         onSubmit={handleUpdateUser}
                         defaultValues={formValues}
@@ -108,7 +107,7 @@ const UserManagement = () => {
                     />
                 </>
             )}
-            <SchemaForm name="deleteJobCategoryForm" onSubmit={handleDeleteUser}>
+            <SchemaForm name="deleteUserForm" onSubmit={handleDeleteUser}>
                 <div className="flex flex-col space-y-4">
                     {/* Header: Icon và Tiêu đề thưa ông chủ */}
                     <div className="flex items-start space-x-4">
@@ -119,7 +118,7 @@ const UserManagement = () => {
                             <h2 className="text-2xl font-bold text-[#1a2b3b]">Delete Form</h2>
                             <p className="text-gray-500 mt-2 text-lg leading-relaxed">
                                 Are you sure you would like to delete the user
-                                <span className="font-semibold text-gray-800"> '{selectedUser?.name}'</span>?
+                                <span className="font-semibold text-gray-800"> '{selectedUser?.fullName}'</span>?
                             </p>
                         </div>
                     </div>
@@ -170,12 +169,12 @@ const UserManagement = () => {
                                 <div className="space-y-4">
                                     <div>
                                         <label className="text-xs text-slate-500 uppercase font-bold">Họ và Tên</label>
-                                        <p className="text-sm font-medium">{selectedUser.name}</p>
+                                        <p className="text-sm font-medium">{selectedUser.fullName}</p>
                                     </div>
                                     <Separator />
                                     <div>
                                         <label className="text-xs text-slate-500 uppercase font-bold">Email</label>
-                                        <p className="text-sm">{selectedUser.name}</p>
+                                        <p className="text-sm">{selectedUser.email}</p>
                                     </div>
                                     <Separator />
                                     <div>
