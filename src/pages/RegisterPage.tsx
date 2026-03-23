@@ -45,7 +45,7 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-white overflow-hidden">
+        <div className="fixed inset-0 flex items-center justify-center bg-white overflow-hidden z-10000">
             <div className="flex w-full h-full overflow-hidden">
                 {/* CỘT TRÁI: BRAND (Giữ nguyên phong cách Welcome Back) */}
                 <div className="relative hidden w-1/2 flex-col justify-center bg-blue-600 p-16 text-white md:flex leading-tight">
@@ -77,7 +77,7 @@ const RegisterPage = () => {
                     <div className="mx-auto w-full max-w-sm">
                         <div className="mb-8 text-center text-blue-700">
                             <h2 className="text-3xl font-black uppercase tracking-tight">
-                                Create Account
+                                Tạo tài khoản
                             </h2>
                         </div>
 

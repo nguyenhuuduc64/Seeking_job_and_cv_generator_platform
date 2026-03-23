@@ -2,7 +2,7 @@ import NavBar from "./NavBar";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Navigation } from "./Navigation";
-
+import { Footer } from "./Footer";
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {
     const { user, isChecking } = useSelector((state: any) => state.user);
 
@@ -22,6 +22,7 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
                 <Navigation />
             </div>
             <main style={{ marginTop: 'var(--header-height)' }}>{children}</main>
+            <Footer />
         </div>
     );
 }

@@ -51,13 +51,13 @@ export function Navigation() {
     const menuItems = getMenuItems();
 
     return (
-        <header className="lg:px-40 sticky top-0 z-50 w-full border-b bg-white shadow-sm font-sans">
+        <header className="lg:px-20 sticky top-0 z-50 w-full border-b bg-white shadow-sm font-sans">
             <div className="w-full container flex h-20 items-center justify-between px-4 md:px-8">
 
                 {/* --- TRÁI: LOGO --- */}
                 <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
                     <div className="text-blue-600 text-3xl">
-                        <h5 className="text-4xl font-bold italic tracking-tighter">
+                        <h5 className="text-4xl font-bold tracking-tighter">
                             <span className="text-blue-600">Viec</span>
                             <span className="text-orange-500">S</span>
                         </h5>
@@ -80,6 +80,11 @@ export function Navigation() {
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                                     <Link to="/companies" className="uppercase font-bold text-xs tracking-widest">Công ty</Link>
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                    <Link to="/cv" className="uppercase font-bold text-xs tracking-widest">CV</Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
