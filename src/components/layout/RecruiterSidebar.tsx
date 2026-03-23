@@ -22,8 +22,10 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { Link } from "react-router-dom"
-
+import { Link, useNavigate } from "react-router-dom"
+import { Button } from "../ui/button"
+import { useDispatch } from "react-redux"
+import { removeUser } from "../../features/modal/userSlice"
 const recruiterMenuData = [
     {
         title: "Bảng điều khiển",
@@ -79,7 +81,13 @@ const recruiterMenuData = [
 
 export function RecruiterSidebar() {
     const { open } = useSidebar() // Kiểm tra trạng thái đóng/mở
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        dispatch(removeUser());
+        navigate("/");
+    }
     return (
         <Sidebar collapsible="icon" className="relative"> {/* Thêm icon mode để không bị đè Header */}
             <SidebarContent>
@@ -136,6 +144,9 @@ export function RecruiterSidebar() {
                             </SidebarMenuItem>
                         ))}
                     </SidebarMenu>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <Button onClick={handleLogout}>Đăng xuất</Button>
                 </SidebarGroup>
             </SidebarContent>
         </Sidebar>

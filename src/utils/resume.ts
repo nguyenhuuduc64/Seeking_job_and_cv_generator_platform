@@ -123,7 +123,6 @@ export const handleAIReview = async (componentRef: React.RefObject<any>) => {
         // Tạo Blob để lưu vào state hoặc gửi đi
         const pdfBlob = await html2pdf()
             .from(componentRef.current)
-            .set(options)
             .output('blob');
 
         console.log("✅ Đã tạo PDF Blob thành công:", pdfBlob);

@@ -44,6 +44,17 @@ const menuData = [
             { title: "Duyệt tin mới", url: "/admin/jobs/pending" },
         ],
     },
+
+    {
+        title: "Quản lý danh mục",
+        url: "#",
+        icon: Briefcase,
+        isActive: true, // Mặc định mở mục này
+        items: [
+            { title: "Danh mục ngành nghề", url: "/admin/danh-muc/nganh-nghe" },
+
+        ],
+    },
     {
         title: "Quản lý Hồ sơ (CV)",
         url: "#",

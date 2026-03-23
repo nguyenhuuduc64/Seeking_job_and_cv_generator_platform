@@ -20,7 +20,7 @@ const Button = ({
 }: ButtonProps) => {
 
   // Định nghĩa style mặc định theo từng "biến thể" (variant)
-  const baseStyles = "flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-semibold transition-all duration-200 active:scale-95 shadow-sm cursor-pointer";
+  const baseStyles = "flex items-center justify-center gap-2 px-6 py-2.5 rounded-sm font-semibold transition-all duration-200 active:scale-95 shadow-sm cursor-pointer";
 
   const variants = {
     primary: "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200",

@@ -22,7 +22,7 @@ const HeroBanner = () => {
                     Tìm kiếm việc làm ngay hôm nay
                 </h1>
                 {/* 1. Thanh Search Bar nằm trên cùng (Bo tròn cực đại) */}
-                <div className="flex items-center bg-white rounded-full shadow-lg p-1.5 w-full max-w-5xl mx-auto mb-10">
+                <div className="flex items-center bg-white rounded-sm shadow-lg p-1.5 w-full max-w-5xl mx-auto mb-10">
                     <div className="flex-1 flex items-center">
                         <Search
                             onSearchJob={handleSearchJob}
@@ -44,7 +44,7 @@ const HeroBanner = () => {
                 {/* 2. Phần thân dưới: Sidebar + Ảnh + Title */}
                 <div className="flex gap-8 items-start max-w-6xl mx-auto">
                     {/* Sidebar Categories */}
-                    <div className="bg-white rounded-[2rem] shadow-xl p-8 w-80 shrink-0">
+                    <div className="bg-white rounded-sm shadow-xl p-8 w-80 shrink-0">
                         <ul className="space-y-5">
                             {[
                                 'Kỹ thuật phần mềm',
@@ -70,7 +70,7 @@ const HeroBanner = () => {
 
                     {/* Cụm Bên Phải: Ảnh minh họa & Tiêu đề */}
                     <div className="flex-1 flex flex-col">
-                        <div className="w-full h-[280px] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white/10 mb-6">
+                        <div className="w-full h-[280px] rounded-sm overflow-hidden shadow-2xl border-4 border-white/10 mb-6">
                             <img
                                 src={signContractImg}
                                 alt="Working Illustration"

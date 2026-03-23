@@ -1,6 +1,7 @@
 import NavBar from "./NavBar";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { Navigation } from "./Navigation";
 
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {
     const { user, isChecking } = useSelector((state: any) => state.user);
@@ -18,7 +19,7 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
     return (
         <div>
             <div className="fixed w-full top-0" style={{ zIndex: 500 }}>
-                <NavBar />
+                <Navigation />
             </div>
             <main style={{ marginTop: 'var(--header-height)' }}>{children}</main>
         </div>

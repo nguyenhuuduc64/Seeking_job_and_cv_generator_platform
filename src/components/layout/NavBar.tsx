@@ -86,7 +86,7 @@ const Navbar = () => {
     }, [currentUser]);
     return (
         <>
-            <nav className="flex items-center justify-between px-10 py-4 bg-white shadow-sm font-sans">
+            <nav className="lg:px-40 flex items-center justify-between py-4 bg-white shadow-sm font-sans">
                 {/* 1. Logo Group */}
                 <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
                     <div className="text-blue-600 text-3xl">

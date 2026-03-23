@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserFields, type UserType } from "@/types";
 import { UserService, } from "@/services/userService";
-import { DataTable } from "./users/data-table";
+import { DataTable } from "./jobCategory/data-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +10,7 @@ import type { FieldConfig } from "@/types/SchemaFormTypes";
 import { SchemaForm } from "@/components/common/forms/SchemaForm";
 import { useAppDispatch } from "@/hooks/redux";
 import { useQueryClient } from "@tanstack/react-query";
-import { getColumns } from "./users/columns";
+import { getColumns } from "./jobCategory/columns";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/app/store";
 import { closeForm, openForm, setFormValues } from "@/features/modal/formSlice";
@@ -21,6 +21,7 @@ import { useContext } from "react";
 import { TitleContext } from "@/App";
 import { JobCrategoryField } from "@/types/JobType";
 import { JobCategoryType } from "@/types/JobType";
+import { createJobCategory, getJobCategory, updateJobCategory } from "@/services/jobService";
 const UserManagement = () => {
     const dispatch = useAppDispatch();
     const queryClient = useQueryClient();
@@ -37,15 +38,11 @@ const UserManagement = () => {
         };
         initFields();
     }, []);
-    const fetchUsers = async () => {
-        const response = await UserService.getUsers();
-        console.log(response);
-        return response.result;
-    }
+
     const formValues = useSelector((state: RootState) => state.form.formValues);
-    const { data: users, isLoading, isError, error } = useQuery({
-        queryKey: ['users'], // Khóa định danh để caching
-        queryFn: fetchUsers, // Hàm thực hiện gọi API
+    const { data: jobCategories, isLoading, isError, error } = useQuery({
+        queryKey: ['job-category'], // Khóa định danh để caching
+        queryFn: getJobCategory, // Hàm thực hiện gọi API
     })
 
     const handleRowClick = (row: JobCategoryType) => {
@@ -55,14 +52,14 @@ const UserManagement = () => {
 
     const handleCreateUser = async (data: any) => {
         console.log(data);
-        await UserService.createUser(data);
-        queryClient.invalidateQueries({ queryKey: ['users'] });
+        await createJobCategory(data);
+        queryClient.invalidateQueries({ queryKey: ['job-category'] });
     }
 
     const handleUpdateUser = async (data: any) => {
         console.log('data page', data);
-        await UserService.updateUser(data);
-        queryClient.invalidateQueries({ queryKey: ['users'] });
+        await updateJobCategory(data);
+        queryClient.invalidateQueries({ queryKey: ['job-category'] });
     }
 
     const handleOpenEditForm = (jobCategory: JobCategoryType) => {
@@ -98,7 +95,7 @@ const UserManagement = () => {
         <div className="space-y-6 p-6">
             {dynamicFields.length > 0 && (
                 <>
-                    <SchemaForm name="userForm" schema={dynamicFields} onSubmit={handleCreateUser} />
+                    <SchemaForm name="jobCategoryForm" schema={dynamicFields} onSubmit={handleCreateUser} />
                     <SchemaForm
                         name="updateJobCategoryForm"
                         schema={dynamicFields}
@@ -145,13 +142,13 @@ const UserManagement = () => {
             </SchemaForm>
 
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 {/* Bảng danh sách - Chiếm 3/4 chiều ngang */}
 
                 <div className="lg:col-span-3">
                     <DataTable
                         columns={tableColumns}
-                        data={users || []}
+                        data={jobCategories || []}
                         onRowClick={handleRowClick}
                     // Mẹo: Thêm sự kiện click vào row trong DataTable nếu ông chủ muốn
                     />

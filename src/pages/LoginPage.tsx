@@ -6,6 +6,7 @@ import { setUser } from '../features/modal/userSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import Button from '@/components/common/Button';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
@@ -127,12 +128,11 @@ const LoginPage = () => {
                                 </a>
                             </div>
 
-                            <button
-                                type="submit"
-                                className="w-full rounded-full bg-blue-600 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-100 transition-all hover:bg-blue-700 active:scale-95"
-                            >
-                                ĐĂNG NHẬP
-                            </button>
+                            <Button
+                                name="ĐĂNG NHẬP"
+                                type='submit'
+                                className="w-full rounded-sm bg-blue-600 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-100 transition-all hover:bg-blue-700 active:scale-95"
+                            />
                         </form>
 
                         {/* Divider */}
@@ -146,14 +146,14 @@ const LoginPage = () => {
                         </div>
 
                         {/* Google Login */}
-                        <button
+                        <Button
+                            name="Tiếp tục với Google"
                             type="button"
                             onClick={() => loginWithGoogle()}
                             className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-gray-100 py-3.5 text-[11px] font-black uppercase tracking-widest text-gray-600 transition-all hover:bg-gray-50 active:scale-95 shadow-sm"
-                        >
-                            <FontAwesomeIcon icon={faStar} className="text-red-500 text-sm" />
-                            Tiếp tục với Google
-                        </button>
+                            icon={faStar}
+                            variant='outline'
+                        />
                     </div>
                 </div>
             </div>

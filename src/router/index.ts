@@ -15,6 +15,7 @@ import ConfirmPage from '@/pages/admin/ConfirmPage';
 import CompanyDetailPage from '@/pages/recruiter/CompanyDetailPage';
 import JobManagementPage from '@/pages/recruiter/JobManagementPage';
 import JobCreatePage from '@/pages/recruiter/JobCreatePage';
+import JobCategoryPage from '@/pages/admin/JobCategoryPage';
 
 export const publicRoutes = [
     {
@@ -75,6 +76,10 @@ export const adminRoutes = [
     {
         path: '/admin/xac-nhan/nha-tuyen-dung',
         element: ConfirmPage,
+    },
+    {
+        path: '/admin/danh-muc/nganh-nghe',
+        element: JobCategoryPage,
     }
 ];
 
