@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 // Thay thế FontAwesome bằng Lucide thưa ông chủ
 import { Facebook, Linkedin, Github, Globe, Mail } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopyright } from "@fortawesome/free-solid-svg-icons";
 
 export function Footer() {
     return (
@@ -18,7 +20,7 @@ export function Footer() {
                         </Link>
                         <p className="text-xs font-medium leading-relaxed text-gray-500 max-w-xs">
                             Nền tảng kết nối tài năng công nghệ hàng đầu Việt Nam.
-                            Đồng hành cùng ông chủ trên con đường sự nghiệp.
+                            Đồng hành cùng các bạn trên con đường sự nghiệp.
                         </p>
                     </div>
 
@@ -72,7 +74,8 @@ export function Footer() {
                 {/* DÒNG BẢN QUYỀN CUỐI CÙNG */}
                 <div className="mt-16 border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
-                        © 2026 VIECS — SINCE 2025 THƯA ÔNG CHỦ.
+                        <FontAwesomeIcon icon={faCopyright} />
+                        2026 VIECS — SINCE 2025.
                     </p>
                     <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest text-gray-300">
                         <Link to="/" className="hover:text-gray-900 transition-colors">Điều khoản</Link>

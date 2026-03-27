@@ -17,11 +17,12 @@ import { LayoutProvider } from './context/layout-provider';
 import { createContext } from 'react';
 import { TitleContextType } from './types/title';
 import RoleBasedRoute from './components/common/RolePasedRoute';
+import { useSelector } from 'react-redux';
 export const TitleContext = createContext<TitleContextType | undefined>(undefined);
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
-
+    const user = useSelector((state: any) => state.user);
     const getMyInfo = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
@@ -77,9 +78,12 @@ function App() {
                                         key={`private-${index}`}
                                         path={route.path}
                                         element={
-                                            <DefaultLayout>
-                                                <route.element />
-                                            </DefaultLayout>
+                                            // Ông chủ có thể dùng một lớp PrivateRoute đơn giản hoặc tận dụng RoleBasedRoute
+                                            <PrivateRoute>
+                                                <DefaultLayout>
+                                                    <route.element />
+                                                </DefaultLayout>
+                                            </PrivateRoute>
                                         }
                                     />
                                 ))}
@@ -115,7 +119,7 @@ function App() {
                                 ))}
 
                                 {/* NHÓM 5: USER ROUTES - Chỉ user mới vào được */}
-                                {userRoutes.map((route, index) => (
+                                {userRoutes?.map((route: any, index: number) => (
                                     <Route
                                         key={`user-${index}`}
                                         path={route.path}

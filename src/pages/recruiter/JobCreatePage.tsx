@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import ButtonCustom from "@/components/common/Button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 // Font Awesome Icons
+import { RecruitmentType } from "@/types/RecruitmentType";
+import { useQuery } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faSave,
@@ -22,23 +24,34 @@ import {
 
 import instance from "@/config/axios";
 import { useNavigate } from "react-router-dom";
+import { SelectCustom } from "@/components/common/SelectCustom";
+import { setPointerCapture } from "konva/lib/PointerEvents";
 
 export default function JobCreatePage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-
-    const [jobData, setJobData] = useState({
+    const [categories, setCategories] = useState([]);
+    const [recruitment, setRecruitment] = useState<RecruitmentType>({
         title: "",
         salary: "",
-        content: ""
+        content: "",
+        categoryId: "",
+        companyId: ""
     });
-
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["categories"],
+        queryFn: async () => {
+            const response = await instance.get("/job-category");
+            setCategories(response.data.result);
+        }
+    });
     const handleSave = async () => {
-        if (!jobData.title || !jobData.content) return;
+        if (!recruitment.title || !recruitment.content) return;
         setLoading(true);
+        console.log("noi dung tin tuyen dung: ", recruitment)
         try {
-            await instance.post("/recruitment", jobData);
-            navigate("/tuyen-dung/danh-sach");
+            await instance.post("/recruitment", recruitment);
+            navigate("/tuyen-dung/tin-da-dang");
         } catch (error) {
             console.error(error);
         } finally {
@@ -47,35 +60,24 @@ export default function JobCreatePage() {
     };
 
     return (
-        <div className="container max-w-6xl py-8 px-4 mx-auto font-sans">
+        <div className="container py-8 px-4 mx-auto bg-white w-full">
             {/* Header: Phẳng và Góc cạnh */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-l-4 border-[var(--primary-color)] pl-6">
-                <div className="space-y-1">
-                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">
-                        Thiết lập tin tuyển dụng
-                    </h1>
-                    <p className="text-sm text-gray-500 flex items-center gap-2">
-                        <FontAwesomeIcon icon={faLayerGroup} className="text-gray-400" />
-                        Hệ thống quản trị nội dung tuyển dụng tập trung
-                    </p>
-                </div>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+
                 <div className="flex items-center gap-2">
-                    <Button
-                        variant="outline"
+                    <ButtonCustom
+                        variant="ghost"
                         onClick={() => navigate(-1)}
-                        className="rounded-sm px-5 border-gray-300 hover:bg-gray-100 uppercase text-xs font-bold"
-                    >
-                        <FontAwesomeIcon icon={faXmark} className="mr-2" /> Hủy
-                    </Button>
-                    <Button
+                        name="Hủy"
+                        icon={faXmark}
+                    />
+
+                    <ButtonCustom
                         onClick={handleSave}
-                        disabled={loading}
-                        style={{ backgroundColor: 'var(--primary-color)' }}
-                        className="rounded-sm px-8 text-white shadow-sm hover:brightness-90 transition-all uppercase text-xs font-bold"
-                    >
-                        <FontAwesomeIcon icon={faSave} className="mr-2" />
-                        {loading ? "Đang xử lý..." : "Lưu tin đăng"}
-                    </Button>
+                        name="Lưu tin đăng"
+                        icon={faSave}
+                    />
+
                 </div>
             </div>
 
@@ -85,11 +87,16 @@ export default function JobCreatePage() {
                     <Card className="border border-gray-200 rounded-sm shadow-none">
                         <CardHeader className="bg-gray-50/50 border-b p-4">
                             <CardTitle className="text-sm font-bold flex items-center gap-2 uppercase tracking-wider">
-                                <FontAwesomeIcon icon={faPenNib} style={{ color: 'var(--primary-color)' }} />
                                 Nội dung chi tiết
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-6 space-y-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="title" className="text-[11px] font-bold uppercase text-gray-400">
+                                    Thiết lập danh mục
+                                </Label>
+                                <SelectCustom items={categories} classNames="w-full max-w-48" onValueChange={(value) => setRecruitment({ ...recruitment, categoryId: value })} />
+                            </div>
                             <div className="space-y-2">
                                 <Label htmlFor="title" className="text-[11px] font-bold uppercase text-gray-400">
                                     Vị trí công việc
@@ -97,8 +104,8 @@ export default function JobCreatePage() {
                                 <Input
                                     id="title"
                                     placeholder="Ví dụ: LẬP TRÌNH VIÊN BACKEND (JAVA/SPRING)..."
-                                    value={jobData.title}
-                                    onChange={(e) => setJobData({ ...jobData, title: e.target.value })}
+                                    value={recruitment.title}
+                                    onChange={(e) => setRecruitment({ ...recruitment, title: e.target.value })}
                                     className="rounded-sm border-gray-300 focus-visible:ring-1 focus-visible:ring-[var(--primary-color)] h-12 font-bold text-gray-800"
                                 />
                             </div>
@@ -110,8 +117,8 @@ export default function JobCreatePage() {
                                 <Textarea
                                     id="content"
                                     placeholder="Nhập nội dung công việc tại đây..."
-                                    value={jobData.content}
-                                    onChange={(e) => setJobData({ ...jobData, content: e.target.value })}
+                                    value={recruitment.content}
+                                    onChange={(e) => setRecruitment({ ...recruitment, content: e.target.value })}
                                     className="min-h-[500px] text-base rounded-sm border-gray-300 focus-visible:ring-1 focus-visible:ring-[var(--primary-color)] resize-none p-4 leading-relaxed"
                                 />
                             </div>
@@ -124,7 +131,6 @@ export default function JobCreatePage() {
                     <Card className="border border-gray-200 rounded-sm shadow-none">
                         <CardHeader className="bg-gray-50/50 border-b p-4">
                             <CardTitle className="text-sm font-bold flex items-center gap-2 uppercase tracking-wider">
-                                <FontAwesomeIcon icon={faBriefcase} style={{ color: 'var(--primary-color)' }} />
                                 Thông số
                             </CardTitle>
                         </CardHeader>
@@ -138,8 +144,8 @@ export default function JobCreatePage() {
                                     />
                                     <Input
                                         placeholder="15 - 20 triệu..."
-                                        value={jobData.salary}
-                                        onChange={(e) => setJobData({ ...jobData, salary: e.target.value })}
+                                        value={recruitment.salary}
+                                        onChange={(e) => setRecruitment({ ...recruitment, salary: e.target.value })}
                                         className="pl-9 rounded-sm border-gray-300 h-10 text-sm"
                                     />
                                 </div>
@@ -149,7 +155,7 @@ export default function JobCreatePage() {
                                             key={tag}
                                             variant="secondary"
                                             className="rounded-sm text-[10px] font-bold uppercase cursor-pointer hover:bg-gray-200"
-                                            onClick={() => setJobData({ ...jobData, salary: tag })}
+                                            onClick={() => setRecruitment({ ...recruitment, salary: tag })}
                                         >
                                             {tag}
                                         </Badge>
@@ -171,11 +177,7 @@ export default function JobCreatePage() {
                         </CardContent>
                     </Card>
 
-                    <div className="border border-dashed border-gray-300 p-4 rounded-sm">
-                        <p className="text-[10px] text-gray-400 text-center uppercase font-bold">
-                            Powered by PiPi System
-                        </p>
-                    </div>
+
                 </div>
             </div>
         </div>

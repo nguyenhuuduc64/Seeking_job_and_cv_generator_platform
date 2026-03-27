@@ -20,12 +20,12 @@ interface ItemType {
 }
 export default function Menu({ defaultName, items }: { defaultName: string, items: ItemType[] | [] }) {
     return (
-        <DropdownMenu>
+        <DropdownMenu >
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="border-0 cursor-pointer">{defaultName}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40" align="start">
-                <DropdownMenuGroup>
+                <DropdownMenuGroup >
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     {items?.map((item, index) => (
                         <DropdownMenuItem key={index} onClick={item.onClick} className="cursor-pointer">

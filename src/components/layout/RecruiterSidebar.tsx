@@ -38,7 +38,7 @@ const recruiterMenuData = [
         icon: Briefcase,
         isActive: true,
         items: [
-            { title: "Tin đã đăng", url: "/tuyen-dung/cong-viec" },
+            { title: "Tin đã đăng", url: "/tuyen-dung/tin-da-dang" },
             { title: "Đăng tin mới", url: "/tuyen-dung/cong-viec/tao-tin-tuyen-dung" },
         ],
     },
@@ -92,12 +92,12 @@ export function RecruiterSidebar() {
         <Sidebar collapsible="icon" className="relative"> {/* Thêm icon mode để không bị đè Header */}
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel className="px-4 py-8 h-auto">
+                    <SidebarGroupLabel className="px-4 py-8 h-auto cursor-pointer" onClick={() => navigate("/")}>
                         {open ? (
-                            <h5 className="text-2xl font-bold transition-all duration-300">
+                            <h5 className="text-2xl font-bold transition-all duration-300" >
                                 <span className="text-blue-600">Viec</span>
                                 <span className="text-orange-500">S</span>
-                                <span className="text-blue-600"> Admin</span>
+                                <span className="text-blue-600"> Recruiter</span>
                             </h5>
                         ) : (
                             <span className="text-orange-500 text-xl font-bold">S</span>

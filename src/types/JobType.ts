@@ -5,6 +5,15 @@ export interface JobCategoryType {
     recruitments?: Record<string, any>;
 }
 
+export interface JobType {
+    id: string | number;
+    title: string;
+    company?: string;
+    salary?: string;
+    location?: string;
+    content: string;
+}
+
 export const JobCrategoryField: FieldConfig =
 {
     name: "name",

@@ -16,11 +16,16 @@ import CompanyDetailPage from '@/pages/recruiter/CompanyDetailPage';
 import JobManagementPage from '@/pages/recruiter/JobManagementPage';
 import JobCreatePage from '@/pages/recruiter/JobCreatePage';
 import JobCategoryPage from '@/pages/admin/JobCategoryPage';
-
+import About from '@/pages/About';
+import JobDiscriptionPage from '@/pages/JobDiscriptionPage';
 export const publicRoutes = [
     {
         path: '/',
         element: Home,
+    },
+    {
+        path: '/about',
+        element: About,
     },
 
     {
@@ -38,6 +43,10 @@ export const publicRoutes = [
     {
         path: '/dang-ky-tuyen-dung',
         element: RecruiterRegistrationpage,
+    },
+    {
+        path: "/tin-tuyen-dung/:id",
+        element: JobDiscriptionPage
     }
 ];
 
@@ -93,7 +102,7 @@ export const recruiterRoutes = [
         element: CompanyDetailPage,
     },
     {
-        path: '/tuyen-dung/cong-viec',
+        path: '/tuyen-dung/tin-da-dang',
         element: JobManagementPage,
     },
     {
@@ -103,8 +112,5 @@ export const recruiterRoutes = [
 ];
 
 export const userRoutes = [
-    {
-        path: '/',
-        element: Home,
-    },
+
 ]

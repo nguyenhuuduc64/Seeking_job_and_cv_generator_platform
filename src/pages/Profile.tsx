@@ -42,11 +42,15 @@ export default function Profile() {
                     />
                 ))}
                 <div
-                    className="p-2 border-bottom cursor-pointer flex items-center justify-center lg:w-[200px] lg:h-[300px] md:w-[200px] md:h-[300px]"
-                    style={{ backgroundColor: 'var(--background-default-color)' }}
+                    className="p-2 border-[2px] cursor-pointer flex items-center justify-center lg:w-[200px] lg:h-[300px] md:w-[200px] md:h-[300px]"
+                    style={{
+                        backgroundColor: 'var(--background-default-color)',
+                        borderImageSource: 'linear-gradient(to bottom right, rgba(37, 99, 235, 1), rgba(249, 115, 22, 0.5))',
+                        borderImageSlice: 1
+                    }}
                     onClick={() => navigate('/tao-cv')}
                 >
-                    <FontAwesomeIcon icon={faPlus} />
+                    <FontAwesomeIcon icon={faPlus} className='text-2xl text-blue-600' />
                 </div>
             </div>
 

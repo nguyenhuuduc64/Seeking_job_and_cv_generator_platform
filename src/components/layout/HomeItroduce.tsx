@@ -1,8 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faBriefcase, faBuilding, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-
+import ButtonCustom from '../common/Button';
+import { useNavigate } from 'react-router-dom';
 const HomeIntroduce: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <section className="relative w-full h-[600px] md:h-[650px] overflow-hidden bg-[#0a0a0a] font-sans">
 
@@ -54,7 +56,7 @@ const HomeIntroduce: React.FC = () => {
                     </div>
 
                     <h1 className="text-5xl md:text-8xl font-black text-white leading-[1] tracking-tighter">
-                        Viec<span className="text-blue-500">S</span> <br />
+                        Viec<span className="text-orange-500">S</span> <br />
                         <span className="text-[0.4em] block mt-4 font-light text-gray-500 tracking-[0.3em] uppercase">
                             Kết nối tài năng Việt
                         </span>
@@ -67,13 +69,8 @@ const HomeIntroduce: React.FC = () => {
 
                     {/* Nút hành động */}
                     <div className="flex flex-wrap gap-4 pt-4">
-                        <button className="px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black rounded-sm transition-all flex items-center gap-3 uppercase tracking-widest">
-                            BẮT ĐẦU NGAY
-                            <FontAwesomeIcon icon={faArrowRight} />
-                        </button>
-                        <button className="px-10 py-4 bg-transparent border border-white/20 text-white hover:bg-white hover:text-black text-xs font-black rounded-sm transition-all uppercase tracking-widest">
-                            TUYỂN DỤNG
-                        </button>
+                        <ButtonCustom name="BẮT ĐẦU NGAY" variant="orange" onClick={() => navigate('/register')} />
+                        <ButtonCustom name="TUYỂN DỤNG" variant="outline" onClick={() => navigate('/register')} />
                     </div>
 
                     {/* Chỉ số nhanh */}

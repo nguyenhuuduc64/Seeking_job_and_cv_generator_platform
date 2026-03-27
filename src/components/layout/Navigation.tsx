@@ -23,7 +23,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
+import ButtonCustom from "../common/Button";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet" // Import Sheet thưa ông chủ
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -51,45 +52,63 @@ export function Navigation() {
     const menuItems = getMenuItems();
 
     return (
-        <header className="lg:px-20 sticky top-0 z-50 w-full border-b bg-white shadow-sm font-sans">
-            <div className="w-full container flex h-20 items-center justify-between px-4 md:px-8">
+        <header className="lg:px-20 sticky top-0 z-50 w-full border-b bg-white shadow-sm font-sans h-[var(--header-height)]">
+            <div className="w-full container flex h-[var(--header-height)] items-center justify-between px-4 md:px-8">
+                <div className="flex">
+                    {/* --- TRÁI: LOGO --- */}
+                    <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
+                        <div className="text-blue-600 text-3xl">
+                            <h5 className="text-4xl font-bold tracking-tighter">
+                                <span className="text-blue-600">Viec</span>
+                                <span className="text-orange-500">S</span>
+                            </h5>
+                        </div>
+                    </div>
 
-                {/* --- TRÁI: LOGO --- */}
-                <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
-                    <div className="text-blue-600 text-3xl">
-                        <h5 className="text-4xl font-bold tracking-tighter">
-                            <span className="text-blue-600">Viec</span>
-                            <span className="text-orange-500">S</span>
-                        </h5>
+                    {/* --- GIỮA: MENU CHÍNH (ẨN TRÊN MOBILE) --- */}
+                    <div className="rounded-0 hidden lg:flex">
+                        <NavigationMenu>
+                            <div className="rounded-0 hidden lg:flex flex-1 ml-10"> {/* Container bọc ngoài cùng thưa ông chủ */}
+                                <NavigationMenu >
+                                    <NavigationMenuList >
+
+                                        {/* ITEM 1: VIỆC LÀM */}
+                                        <NavigationMenuItem className="rounded-0" style={{ borderRadius: '0' }}>
+                                            <NavigationMenuTrigger className="w-full justify-center uppercase text-xs tracking-widest h-[var(--header-height)] rounded-none bg-transparent ">
+                                                Việc làm
+                                            </NavigationMenuTrigger>
+                                            {/* Dùng ! để đảm bảo không thằng nào cãi được thưa ông chủ */}
+                                            <ul className="flex flex-col w-max min-w-[200px] !rounded-none">
+                                                <ListItem href="/jobs" title="Tìm việc làm">Cơ hội mới đang chờ ông chủ.</ListItem>
+                                                <ListItem href="/categories" title="Ngành nghề">Lọc theo chuyên môn.</ListItem>
+                                            </ul>
+                                        </NavigationMenuItem>
+
+                                        {/* ITEM 2: CÔNG TY */}
+                                        <NavigationMenuItem className="flex-1 min-w-[120px]">
+                                            <NavigationMenuLink asChild>
+                                                <Link to="/companies" className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none uppercase font-bold text-xs tracking-widest bg-transparent`}>
+                                                    Công ty
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </NavigationMenuItem>
+
+                                        {/* ITEM 3: CV */}
+                                        <NavigationMenuItem className="flex-1 min-w-[120px]">
+                                            <NavigationMenuLink asChild>
+                                                <Link to="/cv" className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none uppercase font-bold text-xs tracking-widest bg-transparent`}>
+                                                    CV
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </NavigationMenuItem>
+
+                                    </NavigationMenuList>
+                                </NavigationMenu>
+                            </div>
+                        </NavigationMenu>
                     </div>
                 </div>
 
-                {/* --- GIỮA: MENU CHÍNH (ẨN TRÊN MOBILE) --- */}
-                <div className="hidden lg:flex">
-                    <NavigationMenu>
-                        <NavigationMenuList>
-                            <NavigationMenuItem>
-                                <NavigationMenuTrigger className="uppercase font-bold text-xs tracking-widest">Việc làm</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
-                                        <ListItem href="/jobs" title="Tìm việc làm">Cơ hội mới đang chờ ông chủ.</ListItem>
-                                        <ListItem href="/categories" title="Ngành nghề">Lọc theo chuyên môn.</ListItem>
-                                    </ul>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                    <Link to="/companies" className="uppercase font-bold text-xs tracking-widest">Công ty</Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                    <Link to="/cv" className="uppercase font-bold text-xs tracking-widest">CV</Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
-                </div>
 
                 {/* --- PHẢI: USER & MOBILE TOGGLE --- */}
                 <div className="flex items-center gap-2 lg:gap-6">
@@ -97,8 +116,8 @@ export function Navigation() {
                     <div className="hidden lg:flex items-center gap-6">
                         {!currentUser ? (
                             <div className="flex items-center gap-6">
-                                <button className="text-gray-800 font-bold text-sm hover:text-blue-600 underline decoration-2 underline-offset-4" onClick={() => navigate('/register')}>Đăng ký</button>
-                                <button className="bg-[#3498db] text-white px-8 py-2.5 rounded-sm font-bold text-sm hover:bg-blue-500 shadow-md" onClick={() => navigate('/login')}>Đăng nhập</button>
+                                <ButtonCustom name="Đăng ký" variant="outline" onClick={() => navigate('/register')} />
+                                <ButtonCustom name="Đăng nhập" variant="primary" onClick={() => navigate('/login')} />
                             </div>
                         ) : (
                             <div className="flex items-center">
@@ -109,7 +128,7 @@ export function Navigation() {
                                             <FontAwesomeIcon icon={faAngleDown} className="text-gray-500" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="w-56 mt-2 rounded-sm" align="end">
+                                    <DropdownMenuContent className="w-56 mt-2 rounded-sm " align="end">
                                         <DropdownMenuLabel className="uppercase text-[10px] font-bold text-gray-400">Tài khoản</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
                                         {menuItems.map((item, index) => (

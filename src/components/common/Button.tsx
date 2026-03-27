@@ -10,7 +10,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-const Button = ({
+const ButtonCustom = ({
   name,
   onClick,
   variant = 'primary',
@@ -19,7 +19,6 @@ const Button = ({
   type = 'button'
 }: ButtonProps) => {
 
-  // Định nghĩa style mặc định theo từng "biến thể" (variant)
   const baseStyles = "flex items-center justify-center gap-2 px-6 py-2.5 rounded-sm font-semibold transition-all duration-200 active:scale-95 shadow-sm cursor-pointer";
 
   const variants = {
@@ -35,7 +34,7 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`${baseStyles} ${variants[variant]} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${className} cursor-pointer`}
     >
       {icon && <FontAwesomeIcon icon={icon} />}
       {name}
@@ -43,4 +42,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default ButtonCustom;

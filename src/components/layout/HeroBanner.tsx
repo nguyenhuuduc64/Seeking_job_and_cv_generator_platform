@@ -12,7 +12,7 @@ const HeroBanner = () => {
     const hotTechs = ['ReactJS', 'Node.js', 'Spring Boot', 'Python', 'DevOps', 'AWS'];
 
     return (
-        <div className="relative w-full h-[550px] bg-[#0f172a] overflow-hidden font-sans">
+        <div className="relative w-full bg-[#0f172a] overflow-hidden font-sans">
 
             {/* =========================================================================
                 PHẦN THAY THẾ ẢNH NỀN (BACKGROUND REPLACEMENT) - KHÔNG DÙNG ẢNH TRUYỀN THỐNG
@@ -34,11 +34,11 @@ const HeroBanner = () => {
             </div>
             {/* ========================================================================= */}
 
-            <h1 className="pl-40 text-white text-3xl font-black drop-shadow-lg pt-10 uppercase tracking-tight">
+            <h1 className="pl-5 lg:pl-40 text-white text-3xl font-black drop-shadow-lg pt-10 uppercase tracking-tight">
                 Tìm kiếm <span className="text-blue-400">việc làm</span> ngay hôm nay
             </h1>
 
-            <div className="px-40 relative z-10 mx-auto pt-8 flex flex-row justify-between container gap-5">
+            <div className="px-5 lg:px-40 relative z-10 mx-auto pt-8 flex flex-col lg:flex-row justify-between container gap-5">
                 <div className="flex">
                     <div className="bg-white rounded-sm shadow-2xl p-8 w-80 shrink-0">
                         <ul className="space-y-5">
@@ -84,7 +84,7 @@ const HeroBanner = () => {
                         />
                     </div>
 
-                    <div className="flex items-center justify-center gap-3 mb-10 max-w-5xl mx-auto overflow-x-auto pb-2 scrollbar-hide">
+                    <div className="flex items-center justify-center gap-3 mb-10 max-w-5xl mx-auto overflow-x-auto pb-2 scrollbar-hide flex-wrap ">
                         <div className="flex items-center gap-1.5 text-white font-black text-[10px] uppercase bg-orange-500 px-3 py-1 rounded-sm shadow-sm shrink-0 tracking-widest">
                             <FontAwesomeIcon icon={faFire} />
                             Hot Tech:

@@ -23,47 +23,47 @@ instance.interceptors.request.use(
 );
 
 // 2. Response Interceptor: Xử lý khi thẻ bài hết hạn
+// axios.ts
+
 instance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // Nếu là lỗi 401 (Hết hạn hoặc sai token)
+        // 1. Chỉ xử lý logic Refresh khi gặp lỗi 401 (Unauthorized) thưa ông chủ
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
-            // Nếu đang ở trang login thì không làm gì thêm để tránh vòng lặp thưa ông chủ
+            // Đang ở trang login thì không refresh làm gì thưa ông chủ
             if (originalRequest.url.includes('/auth/log-in')) {
                 return Promise.reject(error);
             }
 
-            const refreshToken = localStorage.getItem('refreshToken');
+            try {
+                // Gọi API refresh - Trình duyệt tự đính kèm Cookie thưa ông chủ
+                const res = await instance.post('/auth/refresh');
+                const newToken = res.data.result.token;
 
-            if (refreshToken) {
-                try {
-                    // Gọi refresh token dùng instance để có sẵn baseURL
-                    const res = await instance.post('/auth/refresh', { token: refreshToken });
-                    const newToken = res.data.result.token;
+                localStorage.setItem('accessToken', newToken);
+                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
 
-                    localStorage.setItem('accessToken', newToken);
+                return instance(originalRequest);
+            } catch (refreshError) {
+                // Refresh thất bại (Cookie hết hạn hoặc không có)
+                localStorage.removeItem('accessToken');
 
-                    // Gán token mới vào request bị lỗi lúc nãy và gửi lại
-                    originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-                    return instance(originalRequest);
-                } catch (refreshError) {
-                    // Refresh cũng lỗi thì cho "bay màu" luôn thưa ông chủ
-                    localStorage.clear();
-                    window.location.href = '/login';
-                    return Promise.reject(refreshError);
-                }
-            } else {
-                // Không có cả refresh token thì mời ông chủ đăng nhập lại
-                localStorage.clear();
-                if (window.location.pathname !== '/login') {
+                // CHỈ đuổi ra ngoài nếu trang hiện tại là trang Private thưa ông chủ
+                const publicPaths = ['/', '/login', '/register', '/about', '/dang-ky-tuyen-dung'];
+                const isPublicPage = publicPaths.includes(window.location.pathname);
+
+                if (!isPublicPage) {
                     window.location.href = '/login';
                 }
+                return Promise.reject(refreshError);
             }
         }
+
+        // 2. Nếu là các lỗi khác (400, 404, 500...) thì cứ để nó lỗi, ĐỪNG redirect thưa ông chủ
         return Promise.reject(error);
     }
 );

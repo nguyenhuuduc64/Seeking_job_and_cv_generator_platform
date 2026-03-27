@@ -49,20 +49,42 @@ export default function RecruiterRegistrationPage() {
 
                 <div className="w-full  bg-white  overflow-hidden">
                     {/* Banner trang trí */}
-                    <div className=" p-8 text-white text-center" style={{ backgroundColor: 'var(--secondary-color)' }}>
-                        <div className="w-full  mb-8">
-                            <button
-                                onClick={() => navigate(-1)}
-                                className="flex items-center cursor-pointer"
-                            >
-                                <FontAwesomeIcon icon={faAngleLeft} />
-                                Quay lại
-                            </button>
+                    <div className="relative p-8 text-white text-center overflow-hidden bg-[#0f172a]">
+                        {/* =========================================================================
+                            PHẦN MÀU NỀN CÔNG NGHỆ CỦA ÔNG CHỦ
+                        ============================================================================ */}
+                        <div className="absolute inset-0 z-0">
+                            {/* Lớp nền tối chủ đạo */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#1e293b]"></div>
+
+                            {/* Luồng sáng xanh (Chiếm đa số) */}
+                            <div className="absolute top-[-10%] left-[-5%] w-[45%] h-[75%] bg-blue-600/20 blur-[120px] rounded-full"></div>
+
+                            {/* Luồng sáng cam (Đã tăng lên ~10% diện tích và độ rõ nét) */}
+                            <div className="absolute -bottom-10 -right-10 w-[40%] h-[50%] bg-orange-500/20 blur-[100px] rounded-full opacity-80"></div>
+
+                            {/* Họa tiết lưới (Grid) */}
+                            <div className="absolute inset-0 opacity-[0.05]"
+                                style={{ backgroundImage: 'radial-gradient(#ffffff 0.5px, transparent 0.5px)', backgroundSize: '30px 30px' }}>
+                            </div>
                         </div>
-                        <h1 className="text-2xl font-bold mb-2">Đăng ký Nhà tuyển dụng</h1>
-                        <p className="text-emerald-100 font-light">
-                            Chỉ một bước xác minh để bắt đầu tiếp cận hàng ngàn ứng viên tiềm năng
-                        </p>
+                        {/* ========================================================================= */}
+
+                        <div className="relative z-10">
+                            <div className="w-full  mb-8">
+                                <button
+                                    onClick={() => navigate(-1)}
+                                    className="flex items-center cursor-pointer"
+                                >
+                                    <FontAwesomeIcon icon={faAngleLeft} />
+                                    Quay lại
+                                </button>
+                            </div>
+                            <h1 className="text-2xl font-bold mb-2">Đăng ký Nhà tuyển dụng</h1>
+                            <p className="text-emerald-100 font-light">
+                                Chỉ một bước xác minh để bắt đầu tiếp cận hàng ngàn ứng viên tiềm năng
+                            </p>
+                        </div>
                     </div>
 
                     <div className="p-8">

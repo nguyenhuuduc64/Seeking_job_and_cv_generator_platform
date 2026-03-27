@@ -36,7 +36,6 @@ const userSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.isChecking = false; // Kể cả lỗi cũng phải tắt để không bị kẹt loading
-      // Lưu ý: window.location.reload() ở đây có thể gây vòng lặp vô tận nếu không cẩn thận thưa ông chủ
     },
   },
 });

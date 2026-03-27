@@ -39,24 +39,13 @@
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.705 0.015 286.067);
-    --header-height: 70px;
+    --header-height: 80px;
     --primary-color: #155DFC;
-    --secondary-color: #5da3ff;
+    --border-gradient: linear-gradient(to bottom right, rgba(37, 99, 235, 1), rgba(249, 115, 22, 0.5));
+    --secondary-color: #FF6900;
 }
 
-/* Thu nhỏ khung soạn thảo */
-.ck-editor__editable_inline {
-    /*min-height: 200px !important; 
-    max-height: 400px !important;
-    overflow-y: auto !important;*/
-}
 
-/* Thu nhỏ tổng thể container bên ngoài */
-.custom-editor-container {
-    /*width: 200px; 
-    height: 300px;
-    overflow-y: hidden;*/
-}
 
 @media print {
 
@@ -194,3 +183,21 @@
         @apply bg-background text-foreground;
     }
 }
+
+@layer utilities {
+
+    /* Tạo class custom để ẩn thanh cuộn thưa ông chủ */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+        /* Cho Chrome, Safari và Opera */
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        /* Cho IE và Edge */
+        scrollbar-width: none;
+        /* Cho Firefox */
+    }
+}
+
+/* index.css */
