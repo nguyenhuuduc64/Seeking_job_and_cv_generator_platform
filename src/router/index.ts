@@ -17,7 +17,7 @@ import JobManagementPage from '@/pages/recruiter/JobManagementPage';
 import JobCreatePage from '@/pages/recruiter/JobCreatePage';
 import JobCategoryPage from '@/pages/admin/JobCategoryPage';
 import About from '@/pages/About';
-import JobDiscriptionPage from '@/pages/JobDiscriptionPage';
+import JobDescriptionPage from '@/pages/JobDescriptionPage';
 export const publicRoutes = [
     {
         path: '/',
@@ -45,9 +45,9 @@ export const publicRoutes = [
         element: RecruiterRegistrationpage,
     },
     {
-        path: "/tin-tuyen-dung/:id",
-        element: JobDiscriptionPage
-    }
+        path: '/tin-tuyen-dung/:id',
+        element: JobDescriptionPage,
+    },
 ];
 
 export const privateRoutes = [
@@ -89,7 +89,7 @@ export const adminRoutes = [
     {
         path: '/admin/danh-muc/nganh-nghe',
         element: JobCategoryPage,
-    }
+    },
 ];
 
 export const recruiterRoutes = [
@@ -108,9 +108,7 @@ export const recruiterRoutes = [
     {
         path: '/tuyen-dung/cong-viec/tao-tin-tuyen-dung',
         element: JobCreatePage,
-    }
+    },
 ];
 
-export const userRoutes = [
-
-]
+export const userRoutes = [];

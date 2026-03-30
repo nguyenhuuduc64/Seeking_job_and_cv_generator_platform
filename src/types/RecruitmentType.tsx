@@ -5,4 +5,8 @@ export interface RecruitmentType {
     categoryId: string;
     companyId: string;
 
+    requirements: string[];
+    workingDay: string;
+    workingTime: string;
+    expirationDate: string;
 }

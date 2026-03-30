@@ -23,28 +23,28 @@ function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user);
+    // App.tsx
     const getMyInfo = async () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
-            dispatch(removeUser()); // Tắt isChecking
+            dispatch(removeUser());
             return;
         }
-        if (token) {
-            const response = await instance.post('/auth/introspect', { token: token });
-            if (response.data.result.valid) {
-                console.log('da kiem tra token: ', response.data.result.valid);
-                const userInfo = await instance.get('/users/my-info');
-                if (userInfo) {
-                    dispatch(setUser(userInfo.data.result));
-                    console.log('da set user', userInfo.data.result);
-                }
-            } else {
-                dispatch(removeUser());
+
+        try {
+            // BỎ QUA bước introspect thưa ông chủ!
+            // Gọi thẳng my-info, nếu token hết hạn Interceptor sẽ tự lo refresh thưa ông chủ.
+            const userInfo = await instance.get('/users/my-info');
+            if (userInfo?.data?.result) {
+                dispatch(setUser(userInfo.data.result));
+                console.log('>>> [App] Đã set user thành công:', userInfo.data.result.username);
             }
+        } catch (error) {
+            // Chỉ remove user nếu thực sự lỗi (ví dụ token nát hẳn không refresh được) thưa ông chủ
+            console.error('>>> [App] Không thể lấy thông tin user thưa ông chủ');
+            dispatch(removeUser());
         }
     };
-
-
 
     useEffect(() => {
         getMyInfo();
