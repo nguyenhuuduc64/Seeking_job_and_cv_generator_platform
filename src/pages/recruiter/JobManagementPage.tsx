@@ -1,18 +1,17 @@
-import { useState, useEffect } from "react";
-import instance from "@/config/axios";
-import { useQuery } from "@tanstack/react-query";
-import JobCard from "@/components/common/JobCard";
-import { JobType } from "@/test/jobTypes";
+import { useState, useEffect } from 'react';
+import instance from '@/config/axios';
+import { useQuery } from '@tanstack/react-query';
+import JobCard from '@/components/common/JobCard';
+import { JobType } from '@/test/jobTypes';
 export default function JobManagementPage() {
-
     const [jobs, setJobs] = useState<JobType[]>([]);
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["jobs"],
+        queryKey: ['jobs'],
         queryFn: async () => {
-            const response = await instance.get("/recruitment");
+            const response = await instance.get('/recruitment');
             return response.data.result;
-        }
+        },
     });
 
     useEffect(() => {
@@ -26,7 +25,7 @@ export default function JobManagementPage() {
             <h1>Quản lý tin tuyển dụng</h1>
             {isLoading && <div>Loading...</div>}
             {isError && <div>Error fetching jobs</div>}
-            {jobs.map((job: JobType) => (
+            {jobs?.map((job: JobType) => (
                 <JobCard key={job.id} job={job} />
             ))}
         </div>

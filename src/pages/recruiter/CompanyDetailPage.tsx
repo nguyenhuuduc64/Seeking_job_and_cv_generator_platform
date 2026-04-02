@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { setCompanytoStore } from '@/features/modal/companySlice';
 // Import Font Awesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faPencil,
     faSave,
@@ -19,39 +20,42 @@ import {
     faPhone,
     faCamera,
     faFileLines,
-    faHashtag
-} from "@fortawesome/free-solid-svg-icons";
+    faHashtag,
+    faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 
-import uploadToCloudinary from "@/utils/uploadToCloudinary";
-import instance from "@/config/axios";
-import { useSelector } from "react-redux";
+import uploadToCloudinary from '@/utils/uploadToCloudinary';
+import instance from '@/config/axios';
+import { useDispatch, useSelector } from 'react-redux';
 import bannerImg from '../../assets/banner.jpg';
 
 const initialData = {
-    id: "",
-    name: "",
-    taxCode: "",
-    email: "",
-    phoneNumber: "",
-    websiteUrl: "",
-    address: "",
-    logoUrl: "",
-    banner: "",
-    description: "",
+    id: '',
+    name: '',
+    taxCode: '',
+    email: '',
+    phoneNumber: '',
+    websiteUrl: '',
+    address: [''],
+    logoUrl: '',
+    banner: '',
+    description: '',
 };
 
 export default function CompanyDetailPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [company, setCompany] = useState(initialData);
     const user = useSelector((state: any) => state.user.user);
+    const dispatch = useDispatch();
 
     const handleGetCompany = async () => {
         if (!user?.id) return;
         try {
             const response = await instance.get(`/company/${user.id}`);
+            console.log('cong ty hien tai: ', response.data.result);
             setCompany(response.data.result);
         } catch (error) {
-            console.error("Lỗi lấy dữ liệu:", error);
+            console.error('Lỗi lấy dữ liệu:', error);
         }
     };
 
@@ -65,22 +69,26 @@ export default function CompanyDetailPage() {
             if (response.data) {
                 setCompany(response.data.result);
                 setIsEditing(false);
-                alert("Cập nhật thành công thưa ông chủ!");
+                dispatch(setCompanytoStore(response.data.result));
+                alert('Cập nhật thành công thưa ông chủ!');
             }
         } catch (error) {
-            console.error("Lỗi lưu dữ liệu:", error);
-            alert("Lỗi rồi, ông chủ kiểm tra lại nhé!");
+            console.error('Lỗi lưu dữ liệu:', error);
+            alert('Lỗi rồi, ông chủ kiểm tra lại nhé!');
         }
     };
 
-    const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'logoUrl' | 'banner') => {
+    const handleUpload = async (
+        e: React.ChangeEvent<HTMLInputElement>,
+        field: 'logoUrl' | 'banner'
+    ) => {
         const file = e.target.files?.[0];
         if (!file) return;
         try {
             const uploadedUrl = await uploadToCloudinary(file);
-            setCompany(prev => ({ ...prev, [field]: uploadedUrl }));
+            setCompany((prev) => ({ ...prev, [field]: uploadedUrl }));
         } catch (error) {
-            alert("Upload ảnh thất bại!");
+            alert('Upload ảnh thất bại!');
         }
     };
 
@@ -93,13 +101,17 @@ export default function CompanyDetailPage() {
                     style={{
                         backgroundImage: `url(${bannerImg})`,
                         backgroundSize: 'cover',
-                        backgroundPosition: 'center'
+                        backgroundPosition: 'center',
                     }}
                 >
                     {isEditing && (
                         <label className="absolute bottom-2 right-2 bg-black/60 p-2 px-3 text-white cursor-pointer rounded-sm hover:bg-black/80 transition-all text-sm flex items-center gap-2">
                             <FontAwesomeIcon icon={faCamera} /> Thay đổi Banner
-                            <input type="file" className="hidden" onChange={(e) => handleUpload(e, 'banner')} />
+                            <input
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => handleUpload(e, 'banner')}
+                            />
                         </label>
                     )}
 
@@ -112,13 +124,22 @@ export default function CompanyDetailPage() {
                             />
                             {isEditing && (
                                 <label className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
-                                    <FontAwesomeIcon icon={faCamera} className="text-white text-2xl" />
-                                    <input type="file" className="hidden" onChange={(e) => handleUpload(e, 'logoUrl')} />
+                                    <FontAwesomeIcon
+                                        icon={faCamera}
+                                        className="text-white text-2xl"
+                                    />
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        onChange={(e) => handleUpload(e, 'logoUrl')}
+                                    />
                                 </label>
                             )}
                         </div>
                         <div className="mb-2 bg-white/90 p-1 px-4 rounded-sm shadow-sm border border-gray-100">
-                            <h1 className="text-2xl font-bold text-gray-900">{company.name || "Tên công ty"}</h1>
+                            <h1 className="text-2xl font-bold text-gray-900">
+                                {company.name || 'Tên công ty'}
+                            </h1>
                         </div>
                     </div>
                 </div>
@@ -134,10 +155,18 @@ export default function CompanyDetailPage() {
                         </Button>
                     ) : (
                         <>
-                            <Button onClick={handleSave} style={{ backgroundColor: 'var(--primary-color)' }} className="rounded-sm text-white px-6 shadow-sm">
+                            <Button
+                                onClick={handleSave}
+                                style={{ backgroundColor: 'var(--primary-color)' }}
+                                className="rounded-sm text-white px-6 shadow-sm"
+                            >
                                 <FontAwesomeIcon icon={faSave} className="mr-2" /> Lưu thay đổi
                             </Button>
-                            <Button onClick={() => setIsEditing(false)} variant="outline" className="rounded-sm border-gray-300 px-6">
+                            <Button
+                                onClick={() => setIsEditing(false)}
+                                variant="outline"
+                                className="rounded-sm border-gray-300 px-6"
+                            >
                                 <FontAwesomeIcon icon={faXmark} className="mr-2" /> Hủy
                             </Button>
                         </>
@@ -150,7 +179,10 @@ export default function CompanyDetailPage() {
                 <div className="space-y-6">
                     <Card className="rounded-sm shadow-sm border-gray-100">
                         <CardHeader className="p-4 border-b bg-gray-50/50">
-                            <CardTitle className="text-base flex items-center gap-2 font-bold" style={{ color: 'var(--primary-color)' }}>
+                            <CardTitle
+                                className="text-base flex items-center gap-2 font-bold"
+                                style={{ color: 'var(--primary-color)' }}
+                            >
                                 <FontAwesomeIcon icon={faPhone} /> Liên hệ & Pháp lý
                             </CardTitle>
                         </CardHeader>
@@ -162,7 +194,9 @@ export default function CompanyDetailPage() {
                                 <Input
                                     disabled={!isEditing}
                                     value={company.taxCode}
-                                    onChange={(e) => setCompany({ ...company, taxCode: e.target.value })}
+                                    onChange={(e) =>
+                                        setCompany({ ...company, taxCode: e.target.value })
+                                    }
                                     className="rounded-sm focus-visible:ring-[var(--primary-color)] bg-white"
                                 />
                             </div>
@@ -173,7 +207,9 @@ export default function CompanyDetailPage() {
                                 <Input
                                     disabled={!isEditing}
                                     value={company.email}
-                                    onChange={(e) => setCompany({ ...company, email: e.target.value })}
+                                    onChange={(e) =>
+                                        setCompany({ ...company, email: e.target.value })
+                                    }
                                     className="rounded-sm bg-white"
                                 />
                             </div>
@@ -184,7 +220,9 @@ export default function CompanyDetailPage() {
                                 <Input
                                     disabled={!isEditing}
                                     value={company.phoneNumber}
-                                    onChange={(e) => setCompany({ ...company, phoneNumber: e.target.value })}
+                                    onChange={(e) =>
+                                        setCompany({ ...company, phoneNumber: e.target.value })
+                                    }
                                     className="rounded-sm bg-white"
                                 />
                             </div>
@@ -195,7 +233,9 @@ export default function CompanyDetailPage() {
                                 <Input
                                     disabled={!isEditing}
                                     value={company.websiteUrl}
-                                    onChange={(e) => setCompany({ ...company, websiteUrl: e.target.value })}
+                                    onChange={(e) =>
+                                        setCompany({ ...company, websiteUrl: e.target.value })
+                                    }
                                     className="rounded-sm bg-white"
                                 />
                             </div>
@@ -207,43 +247,116 @@ export default function CompanyDetailPage() {
                 <div className="md:col-span-2 space-y-6">
                     <Card className="rounded-sm shadow-sm border-gray-100">
                         <CardHeader className="p-4 border-b bg-gray-50/50">
-                            <CardTitle className="text-base flex items-center gap-2 font-bold" style={{ color: 'var(--primary-color)' }}>
+                            <CardTitle
+                                className="text-base flex items-center gap-2 font-bold"
+                                style={{ color: 'var(--primary-color)' }}
+                            >
                                 <FontAwesomeIcon icon={faBuilding} /> Thông tin doanh nghiệp
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-6 space-y-6 bg-white">
                             <div className="space-y-2">
-                                <Label className="font-bold text-sm text-gray-700">Tên doanh nghiệp chính thức</Label>
+                                <Label className="font-bold text-sm text-gray-700">
+                                    Tên doanh nghiệp chính thức
+                                </Label>
                                 <Input
                                     disabled={!isEditing}
                                     value={company.name}
-                                    onChange={(e) => setCompany({ ...company, name: e.target.value })}
+                                    onChange={(e) =>
+                                        setCompany({ ...company, name: e.target.value })
+                                    }
                                     className="rounded-sm text-lg font-bold border-gray-200 focus:border-[var(--primary-color)]"
                                 />
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="space-y-3">
                                 <Label className="flex items-center gap-2 font-bold text-sm text-gray-700">
-                                    <FontAwesomeIcon icon={faMapMarkerAlt} style={{ color: 'var(--primary-color)' }} /> Địa chỉ trụ sở chính
+                                    <FontAwesomeIcon
+                                        icon={faMapMarkerAlt}
+                                        style={{ color: 'var(--primary-color)' }}
+                                    />
+                                    Địa chỉ các trụ sở ({company.address?.length || 0})
                                 </Label>
-                                <Input
-                                    disabled={!isEditing}
-                                    value={company.address}
-                                    onChange={(e) => setCompany({ ...company, address: e.target.value })}
-                                    className="rounded-sm border-gray-200"
-                                />
+
+                                <div className="space-y-2">
+                                    {company.address?.map((addr, index) => (
+                                        <div key={index} className="flex gap-2 items-center">
+                                            <Input
+                                                disabled={!isEditing}
+                                                value={addr}
+                                                placeholder={`Địa chỉ trụ sở ${index + 1}`}
+                                                onChange={(e) => {
+                                                    const newAddresses = [...company.address];
+                                                    newAddresses[index] = e.target.value;
+                                                    setCompany({
+                                                        ...company,
+                                                        address: newAddresses,
+                                                    });
+                                                }}
+                                                className="rounded-sm border-gray-200 flex-1"
+                                            />
+
+                                            {isEditing && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    type="button"
+                                                    className="text-red-500 hover:text-red-700 hover:bg-red-50 h-9 w-9"
+                                                    onClick={() => {
+                                                        const newAddresses = company.address.filter(
+                                                            (_, i) => i !== index
+                                                        );
+                                                        setCompany({
+                                                            ...company,
+                                                            address: newAddresses,
+                                                        });
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faTrash}
+                                                        className="text-sm"
+                                                    />
+                                                </Button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {isEditing && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        type="button"
+                                        className="w-full border-dashed border-gray-300 text-gray-600 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)]"
+                                        onClick={() => {
+                                            setCompany({
+                                                ...company,
+                                                address: [...(company.address || []), ''],
+                                            });
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} className="mr-2 text-xs" />{' '}
+                                        Thêm trụ sở mới
+                                    </Button>
+                                )}
                             </div>
 
                             <Separator className="bg-gray-100" />
 
                             <div className="space-y-2">
                                 <Label className="flex items-center gap-2 font-bold text-sm text-gray-700">
-                                    <FontAwesomeIcon icon={faFileLines} style={{ color: 'var(--primary-color)' }} /> Hồ sơ năng lực / Giới thiệu
+                                    <FontAwesomeIcon
+                                        icon={faFileLines}
+                                        style={{ color: 'var(--primary-color)' }}
+                                    />{' '}
+                                    Hồ sơ năng lực / Giới thiệu
                                 </Label>
                                 <Textarea
                                     disabled={!isEditing}
                                     value={company.description}
-                                    onChange={(e) => setCompany({ ...company, description: e.target.value })}
+                                    onChange={(e) =>
+                                        setCompany({ ...company, description: e.target.value })
+                                    }
                                     className="min-h-[280px] rounded-sm resize-none leading-relaxed border-gray-200 focus:border-[var(--primary-color)]"
                                     placeholder="Nhập giới thiệu chi tiết về công ty thưa ông chủ..."
                                 />

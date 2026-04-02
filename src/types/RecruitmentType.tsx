@@ -9,4 +9,9 @@ export interface RecruitmentType {
     workingDay: string;
     workingTime: string;
     expirationDate: string;
+    benefits: string[];
+    technologies: string[];
+    level: string;
+    education: string;
+    workingAt: string[];
 }
