@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import JobCard from '@/components/common/JobCard';
 import { JobType } from '@/test/jobTypes';
 import { useSelector } from 'react-redux';
+import { RecruitmentType } from '@/types/RecruitmentType';
 export default function JobManagementPage() {
-    const [jobs, setJobs] = useState<JobType[]>([]);
+    const [jobs, setJobs] = useState<RecruitmentType[]>([]);
     const user = useSelector((state: any) => state.user.user);
     console.log('vai tro nguoi dung :', user.roles.name);
 
@@ -34,7 +35,7 @@ export default function JobManagementPage() {
             <h1>Quản lý tin tuyển dụng</h1>
             {isLoading && <div>Loading...</div>}
             {isError && <div>Error fetching jobs</div>}
-            {jobs?.map((job: JobType) => {
+            {jobs?.map((job: RecruitmentType) => {
                 const menuItems = [
                     {
                         name: 'Sửa',
