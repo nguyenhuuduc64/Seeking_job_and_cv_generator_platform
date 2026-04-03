@@ -44,6 +44,7 @@ export default function JobCreatePage() {
     const user = useSelector((state: any) => state.user.user);
 
     const [recruitment, setRecruitment] = useState<RecruitmentType>({
+        id: '',
         title: '',
         salary: '',
         content: '',
@@ -128,7 +129,7 @@ export default function JobCreatePage() {
     };
 
     return (
-        <div className="container py-8 px-4 mx-auto bg-slate-50 min-h-screen">
+        <div className="">
             <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-sm shadow-sm border border-gray-200">
                 <h1 className="text-xl font-bold text-gray-800">Tạo tin tuyển dụng mới</h1>
                 <div className="flex gap-3">

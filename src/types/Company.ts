@@ -11,4 +11,5 @@ export interface CompanyType {
     description: string;
     logoUrl: string;
     userId?: string; // ID của user sở hữu công ty
+    bannerUrl?: string;
 }

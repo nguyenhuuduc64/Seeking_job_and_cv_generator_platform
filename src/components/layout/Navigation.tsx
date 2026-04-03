@@ -82,7 +82,7 @@ export function Navigation() {
                                 <NavigationMenu>
                                     <NavigationMenuList>
                                         <NavigationMenuItem className="!rounded-none">
-                                            <NavigationMenuTrigger className="w-full justify-center uppercase text-xs tracking-widest h-[var(--header-height)] !rounded-none bg-transparent">
+                                            <NavigationMenuTrigger className="w-full justify-center  text-xs tracking-widest h-[var(--header-height)] !rounded-none bg-transparent">
                                                 Việc làm
                                             </NavigationMenuTrigger>
 
@@ -104,7 +104,7 @@ export function Navigation() {
                                             <NavigationMenuLink asChild>
                                                 <Link
                                                     to="/companies"
-                                                    className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none uppercase font-bold text-xs tracking-widest bg-transparent`}
+                                                    className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none  font-bold text-xs tracking-widest bg-transparent`}
                                                 >
                                                     Công ty
                                                 </Link>
@@ -116,7 +116,7 @@ export function Navigation() {
                                             <NavigationMenuLink asChild>
                                                 <Link
                                                     to="/cv"
-                                                    className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none uppercase font-bold text-xs tracking-widest bg-transparent`}
+                                                    className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none  font-bold text-xs tracking-widest bg-transparent`}
                                                 >
                                                     CV
                                                 </Link>
@@ -154,7 +154,7 @@ export function Navigation() {
                                             variant="ghost"
                                             className="flex items-center gap-2 px-2 focus-visible:ring-0"
                                         >
-                                            <span className="font-bold text-gray-800 uppercase text-sm">
+                                            <span className="font-bold text-gray-800  text-sm">
                                                 {currentUser.fullName}
                                             </span>
                                             <FontAwesomeIcon
@@ -167,23 +167,13 @@ export function Navigation() {
                                         className="w-56 mt-2 rounded-sm "
                                         align="end"
                                     >
-                                        <DropdownMenuLabel className="uppercase text-[10px] font-bold text-gray-400">
+                                        <DropdownMenuLabel className=" text-[10px] font-bold text-gray-400">
                                             Tài khoản
                                         </DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        {menuItems.map((item, index) => (
-                                            <DropdownMenuItem
-                                                key={index}
-                                                onClick={item.onClick}
-                                                className="cursor-pointer font-bold text-xs uppercase py-2"
-                                            >
-                                                {item.name}
-                                            </DropdownMenuItem>
-                                        ))}
-                                        <DropdownMenuSeparator />
+
                                         <DropdownMenuItem
                                             onClick={handleLogout}
-                                            className="cursor-pointer font-bold text-xs uppercase py-2 text-red-600 focus:text-red-600"
+                                            className="cursor-pointer font-bold text-xs  py-2 text-red-600 focus:text-red-600"
                                         >
                                             Đăng xuất
                                         </DropdownMenuItem>
@@ -225,19 +215,19 @@ export function Navigation() {
                                     {/* 1. DROPDOWN CHO VIỆC LÀM TRÊN MOBILE */}
                                     <Accordion type="single" collapsible className="w-full">
                                         <AccordionItem value="jobs" className="border-none">
-                                            <AccordionTrigger className="text-lg font-bold uppercase hover:no-underline py-3 px-0">
+                                            <AccordionTrigger className="text-lg   hover:no-underline py-3 px-0">
                                                 Việc làm
                                             </AccordionTrigger>
                                             <AccordionContent className="flex flex-col gap-4 pl-4 pt-2 pb-4">
                                                 <Link
                                                     to="/jobs"
-                                                    className="text-blue-600 font-bold uppercase text-sm border-l-2 border-blue-600 pl-3"
+                                                    className="text-sm  border-blue-600 pl-3"
                                                 >
                                                     Tất cả việc làm
                                                 </Link>
                                                 <Link
                                                     to="/categories"
-                                                    className="text-gray-600 font-bold uppercase text-sm border-l-2 border-gray-200 pl-3"
+                                                    className="text-sm  border-gray-200 pl-3"
                                                 >
                                                     Ngành nghề
                                                 </Link>
@@ -246,19 +236,13 @@ export function Navigation() {
 
                                         {/* 2. CÁC LINK ĐƠN GIẢN KHÁC */}
                                         <div className="py-3 border-b">
-                                            <Link
-                                                to="/companies"
-                                                className="text-lg font-bold uppercase block"
-                                            >
+                                            <Link to="/companies" className="text-lg   block">
                                                 Công ty
                                             </Link>
                                         </div>
 
                                         <div className="py-3 border-b">
-                                            <Link
-                                                to="/candidates"
-                                                className="text-lg font-bold uppercase block"
-                                            >
+                                            <Link to="/candidates" className="text-lg   block">
                                                 Ứng viên
                                             </Link>
                                         </div>
@@ -270,66 +254,34 @@ export function Navigation() {
                                             <div className="flex flex-col gap-4">
                                                 <Button
                                                     variant="outline"
-                                                    className="w-full rounded-full font-bold h-12 border-2"
+                                                    className="w-full rounded-full  h-12 border-2"
                                                     onClick={() => navigate('/login')}
                                                 >
                                                     ĐĂNG NHẬP
                                                 </Button>
                                                 <Button
-                                                    className="w-full bg-[#3498db] rounded-full font-bold h-12 shadow-lg"
+                                                    className="w-full bg-[#3498db] rounded-full  h-12 shadow-lg"
                                                     onClick={() => navigate('/register')}
                                                 >
                                                     ĐĂNG KÝ
                                                 </Button>
                                             </div>
                                         ) : (
-                                            <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                                                <div className="flex flex-col mb-2">
-                                                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">
-                                                        Xin chào thưa ông chủ
-                                                    </p>
-                                                    <p className="font-black text-blue-600 uppercase italic text-xl truncate">
-                                                        {currentUser.fullName}
-                                                    </p>
-                                                </div>
-
-                                                <div className="flex flex-col gap-4 mt-2">
-                                                    {menuItems.map((item, index) => (
-                                                        <button
-                                                            key={index}
-                                                            onClick={item.onClick}
-                                                            className="text-left text-sm font-bold uppercase text-gray-700 hover:text-blue-600 flex items-center gap-2"
-                                                        >
-                                                            <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-                                                            {item.name}
-                                                        </button>
-                                                    ))}
-                                                </div>
-
-                                                <DropdownMenuSeparator className="bg-gray-200 my-2" />
-
-                                                <button
-                                                    onClick={handleLogout}
-                                                    className="text-left text-sm font-black uppercase text-red-600 mt-2 flex items-center gap-2"
-                                                >
-                                                    <span className="h-1.5 w-1.5 rounded-full bg-red-600" />
-                                                    Đăng xuất hệ thống
-                                                </button>
-                                            </div>
+                                            <></>
                                         )}
                                     </div>
 
                                     {/* 4. PHẦN DÀNH CHO NHÀ TUYỂN DỤNG (MOBILE) */}
-                                    <div className="mt-10 p-6 bg-blue-50 rounded-xl border-2 border-dashed border-blue-200 text-center">
-                                        <p className="text-gray-600 text-xs font-medium mb-2">
-                                            Bạn là nhà tuyển dụng?
+                                    <div className="mt-10 py-4 text-center border-t border-gray-100">
+                                        <p className="text-gray-500 text-sm">
+                                            Bạn là nhà tuyển dụng?{' '}
+                                            <a
+                                                href="/dang-ky-tuyen-dung"
+                                                className="text-blue-600 font-semibold hover:underline transition-all"
+                                            >
+                                                Đăng ký ngay
+                                            </a>
                                         </p>
-                                        <a
-                                            href="/dang-ky-tuyen-dung"
-                                            className="font-black text-blue-600 uppercase text-sm underline decoration-2 underline-offset-4"
-                                        >
-                                            Đăng ký ngay thưa ông chủ
-                                        </a>
                                     </div>
                                 </div>
                             </SheetContent>
@@ -349,9 +301,7 @@ function ListItem({ title, children, href }: { title: string; children: string; 
                     to={href}
                     className="block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100"
                 >
-                    <div className="text-sm font-bold uppercase text-blue-600 tracking-tight">
-                        {title}
-                    </div>
+                    <div className="text-sm font-bold  text-blue-600 tracking-tight">{title}</div>
                     <p className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-1 italic">
                         {children}
                     </p>

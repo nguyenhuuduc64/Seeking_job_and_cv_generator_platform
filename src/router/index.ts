@@ -18,6 +18,8 @@ import JobCreatePage from '@/pages/recruiter/JobCreatePage';
 import JobCategoryPage from '@/pages/admin/JobCategoryPage';
 import About from '@/pages/About';
 import JobDescriptionPage from '@/pages/JobDescriptionPage';
+import path from 'path';
+import CompanyPage from '@/pages/CompanyPage';
 export const publicRoutes = [
     {
         path: '/',
@@ -47,6 +49,10 @@ export const publicRoutes = [
     {
         path: '/tin-tuyen-dung/:id',
         element: JobDescriptionPage,
+    },
+    {
+        path: '/cong-ty/:companyId',
+        element: CompanyPage,
     },
 ];
 

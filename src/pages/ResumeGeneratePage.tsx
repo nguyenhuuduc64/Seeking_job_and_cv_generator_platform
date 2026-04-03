@@ -9,12 +9,11 @@ import { faMagicWandSparkles } from '@fortawesome/free-solid-svg-icons';
 import TemplatePanel from '../components/common/TemplatePannel';
 import Toolbar from '@/components/common/toolbar/Toolbar';
 import { useEditor } from '@tiptap/react';
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
-import StarterKit from '@tiptap/starter-kit'
+import Bold from '@tiptap/extension-bold';
+import Italic from '@tiptap/extension-italic';
+import StarterKit from '@tiptap/starter-kit';
 import { getmarkCv, handleAIReview } from '@/utils/resume';
 import { toPng } from 'html-to-image';
-// Tạo Document tổng thể
 
 function ResumeGeneratePage() {
     const { id } = useParams();
@@ -27,7 +26,7 @@ function ResumeGeneratePage() {
         enabled: !!id && id !== 'undefined',
     });
     const editor = useEditor({
-        extensions: [StarterKit, Bold, Italic], // Đảm bảo extensions đầy đủ
+        extensions: [StarterKit, Bold, Italic],
         content: cvData,
     });
     useEffect(() => {
@@ -40,8 +39,6 @@ function ResumeGeneratePage() {
         } else {
             setCvData(dataCv);
         }
-
-
     }, [data, isLoading, id]);
 
     const handleSave = async () => {
@@ -68,9 +65,7 @@ function ResumeGeneratePage() {
         }
     };
 
-
-
-    if (isLoading) return <div>Đang tải dữ liệu của ông chủ...</div>;
+    if (isLoading) return <div>Đang tải dữ liệu...</div>;
 
     return (
         <div className="w-full bg-gray-100 py-10">
@@ -79,19 +74,19 @@ function ResumeGeneratePage() {
                     <div className="flex gap-2 mb-4">
                         <Button onClick={handleSave} name="Lưu CV" />
                         <Button onClick={() => resumeRef.current?.print()} name="Xuất File PDF" />
-                        <Button name="AI Review" icon={faMagicWandSparkles} variant="secondary" onClick={() => resumeRef.current?.aiReview()} />
-
+                        <Button
+                            name="AI Review"
+                            icon={faMagicWandSparkles}
+                            variant="secondary"
+                            onClick={() => resumeRef.current?.aiReview()}
+                        />
                     </div>
                     <div className="flex gap-10">
-
-
                         <div className="relative">
-
                             <Resume cvData={cvData} onItemsChange={setCvData} ref={resumeRef} />
                         </div>
                         <TemplatePanel />
                     </div>
-
                 </div>
             </div>
         </div>

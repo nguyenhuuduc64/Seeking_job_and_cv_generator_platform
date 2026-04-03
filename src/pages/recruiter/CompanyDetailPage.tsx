@@ -23,11 +23,14 @@ import {
     faHashtag,
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-
+import Placeholder from '@tiptap/extension-placeholder';
+import Toolbar from '@/components/common/toolbar/Toolbar';
 import uploadToCloudinary from '@/utils/uploadToCloudinary';
 import instance from '@/config/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import bannerImg from '../../assets/banner.jpg';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 
 const initialData = {
     id: '',
@@ -51,13 +54,26 @@ export default function CompanyDetailPage() {
     const handleGetCompany = async () => {
         if (!user?.id) return;
         try {
-            const response = await instance.get(`/company/${user.id}`);
+            const response = await instance.get(`/company/user/${user.id}`);
             console.log('cong ty hien tai: ', response.data.result);
             setCompany(response.data.result);
         } catch (error) {
             console.error('Lỗi lấy dữ liệu:', error);
         }
     };
+
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            Placeholder.configure({ placeholder: 'Nội dung chi tiết công việc...' }),
+        ],
+        content: company.description,
+        onUpdate: ({ editor }) =>
+            setCompany((prev) => ({ ...prev, description: editor.getHTML() })),
+        editorProps: {
+            attributes: { class: 'min-h-[300px] focus:outline-none p-4 prose max-w-none' },
+        },
+    });
 
     useEffect(() => {
         handleGetCompany();
@@ -351,15 +367,14 @@ export default function CompanyDetailPage() {
                                     />{' '}
                                     Hồ sơ năng lực / Giới thiệu
                                 </Label>
-                                <Textarea
-                                    disabled={!isEditing}
-                                    value={company.description}
-                                    onChange={(e) =>
-                                        setCompany({ ...company, description: e.target.value })
-                                    }
-                                    className="min-h-[280px] rounded-sm resize-none leading-relaxed border-gray-200 focus:border-[var(--primary-color)]"
-                                    placeholder="Nhập giới thiệu chi tiết về công ty thưa ông chủ..."
-                                />
+                                <CardContent className="p-0">
+                                    <div className="group relative">
+                                        <div className="border-b bg-gray-50 p-2">
+                                            {editor && <Toolbar editor={editor} />}
+                                        </div>
+                                        <EditorContent editor={editor} className="min-h-[300px]" />
+                                    </div>
+                                </CardContent>
                             </div>
                         </CardContent>
                     </Card>

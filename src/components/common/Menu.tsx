@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,28 +12,43 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface ItemType {
+export interface ItemType {
     name: string;
     onClick: () => void;
 }
-export default function Menu({ defaultName, items }: { defaultName: string, items: ItemType[] | [] }) {
+export default function Menu({
+    defaultName,
+    items,
+    icon,
+}: {
+    defaultName?: string;
+    items: ItemType[] | [];
+    icon?: any;
+}) {
     return (
-        <DropdownMenu >
+        <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="border-0 cursor-pointer">{defaultName}</Button>
+                <Button variant="ghost" className="border-0 cursor-pointer">
+                    {defaultName}
+                    <FontAwesomeIcon icon={icon} />
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40" align="start">
-                <DropdownMenuGroup >
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuGroup>
                     {items?.map((item, index) => (
-                        <DropdownMenuItem key={index} onClick={item.onClick} className="cursor-pointer">
+                        <DropdownMenuItem
+                            key={index}
+                            onClick={item.onClick}
+                            className="cursor-pointer"
+                        >
                             {item.name}
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 }

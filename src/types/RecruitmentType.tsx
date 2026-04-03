@@ -1,4 +1,5 @@
 export interface RecruitmentType {
+    id: string;
     title: string;
     salary: string;
     content: string;
