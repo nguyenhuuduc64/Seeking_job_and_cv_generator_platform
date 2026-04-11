@@ -9,10 +9,7 @@ export const useBlockEditor = (
     onUpdate: (html: string) => void
 ) => {
     const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Placeholder.configure({ placeholder }),
-        ],
+        extensions: [StarterKit, Placeholder.configure({ placeholder })],
         content: initialContent,
         onUpdate: ({ editor }) => {
             onUpdate(editor.getHTML());

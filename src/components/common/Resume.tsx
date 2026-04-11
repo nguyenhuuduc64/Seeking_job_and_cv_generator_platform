@@ -2,17 +2,19 @@ import { useRef, useImperativeHandle, forwardRef, type Ref, useEffect } from 're
 import { useReactToPrint } from 'react-to-print';
 import { ReactSortable } from 'react-sortablejs';
 import classNames from 'classnames/bind';
-
+import { useTranslation } from 'react-i18next';
 import ObjectiveInputBlock from '../template/react-to-print/ObjectiveInputBlock';
 import PersonalInfoInputBlock from '../template/react-to-print/PersonalInfoInputBlock';
 import ExperienceInputBlock from '../template/react-to-print/ExperienceInputBlock';
 import EducationInputBlock from '../template/react-to-print/EducationInputBlock';
 import CertificateInputBlock from '../template/react-to-print/CertificateInputBlock';
-
+import { languageUtils } from '@/utils/language';
 import styles from '../../styles/resume.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { handleAIReview } from '@/utils/resume';
+import i18n from '@/config/i18n';
+import ButtonCustom from './Button';
 
 const cx = classNames.bind(styles);
 
@@ -24,11 +26,11 @@ interface ResumeProps {
 
 const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, ref: Ref<any>) => {
     const componentRef = useRef<HTMLDivElement>(null!);
+    const { t } = useTranslation();
     const handleUpdateBlockData = (blockId: string, newData: any) => {
         const updatedCvData = cvData.map((block) =>
             block.id === blockId ? { ...block, data: newData } : block
         );
-        // ✅ Gọi onItemsChange với mảng mới hoàn toàn để kích hoạt useEffect
         onItemsChange(updatedCvData);
     };
     const handlePrint = useReactToPrint({
@@ -37,7 +39,7 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
     });
     const handleGetMark = () => {
         handleAIReview(componentRef);
-    }
+    };
     useImperativeHandle(ref, () => ({
         print: () => handlePrint(),
         aiReview: () => handleGetMark(),
@@ -48,16 +50,16 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
         onItemsChange(updatedCvData);
     };
     useEffect(() => {
-        console.log("v data da thay doi");
+        console.log('v data da thay doi');
         if (cvData && cvData.length > 0) {
             const handler = setTimeout(() => {
                 localStorage.setItem('cv_draft', JSON.stringify(cvData));
-                console.log("--- Đã lưu nháp vào LocalStorage (Debounced) ---");
+                console.log('--- Đã lưu nháp vào LocalStorage (Debounced) ---');
             }, 1000);
 
             return () => clearTimeout(handler);
         }
-    }, [cvData]);
+    }, [cvData, t]);
 
     return (
         <div className="flex flex-col items-center bg-gray-100 min-h-screen" style={styles}>
@@ -84,7 +86,9 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
                             if (type) {
                                 const newData = [...cvData];
                                 const newBlock = {
-                                    id: `block_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+                                    id: `block_${Date.now()}_${Math.random()
+                                        .toString(36)
+                                        .substr(2, 5)}`,
                                     type: type,
                                     data: sampleData ? JSON.parse(sampleData) : {},
                                 };
@@ -103,10 +107,7 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
                     {cvData.map((block) => {
                         const type = block.type?.toUpperCase();
                         return (
-
                             <div key={block.id} className="relative group/block">
-
-
                                 <div
                                     className={cx(
                                         'drag-handle',
@@ -120,34 +121,61 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
                                             d="M5 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm3 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm3 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-6 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm3 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm3 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
                                         />
                                     </svg>
-                                    <div className='no-print  z-10 cursor-pointer p-2' onClick={() => handleRemoveBlock(block.id)}>
-                                        <FontAwesomeIcon icon={faTrash} className='text-gray-500' />
+                                    <div
+                                        className="no-print  z-10 cursor-pointer p-2"
+                                        onClick={() => handleRemoveBlock(block.id)}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} className="text-gray-500" />
                                     </div>
                                 </div>
 
                                 {type === 'PERSONAL_INFO' && (
-                                    <PersonalInfoInputBlock data={block.data} onDataChange={(newData) => handleUpdateBlockData(block.id, newData)} />
+                                    <PersonalInfoInputBlock
+                                        data={block.data}
+                                        onDataChange={(newData) =>
+                                            handleUpdateBlockData(block.id, newData)
+                                        }
+                                    />
                                 )}
                                 {type === 'OBJECTIVE' && (
                                     <ObjectiveInputBlock
                                         data={block.data}
-                                        onDataChange={(newData) => handleUpdateBlockData(block.id, newData)}
+                                        onDataChange={(newData) =>
+                                            handleUpdateBlockData(block.id, newData)
+                                        }
                                         onDelete={() => handleRemoveBlock(block.id)}
                                     />
                                 )}
                                 {type === 'EXPERIENCE' && (
-                                    <ExperienceInputBlock data={block.data} onDataChange={(newData) => handleUpdateBlockData(block.id, newData)} />
+                                    <ExperienceInputBlock
+                                        data={block.data}
+                                        onDataChange={(newData) =>
+                                            handleUpdateBlockData(block.id, newData)
+                                        }
+                                    />
                                 )}
-                                {type === 'EDUCATION' && <EducationInputBlock data={block.data} onDataChange={(newData) => handleUpdateBlockData(block.id, newData)} />}
+                                {type === 'EDUCATION' && (
+                                    <EducationInputBlock
+                                        data={block.data}
+                                        onDataChange={(newData) =>
+                                            handleUpdateBlockData(block.id, newData)
+                                        }
+                                    />
+                                )}
                                 {type === 'CERTIFICATE' && (
-                                    <CertificateInputBlock data={block.data} onDataChange={(newData) => handleUpdateBlockData(block.id, newData)} />
+                                    <CertificateInputBlock
+                                        data={block.data}
+                                        onDataChange={(newData) =>
+                                            handleUpdateBlockData(block.id, newData)
+                                        }
+                                    />
                                 )}
                             </div>
                         );
                     })}
                 </ReactSortable>
-                <div className='print-footer hidden print:block'>
-                    được tạo bởi ViecS
+                <div className="print-footer hidden print:block text-center mt-8 border-t pt-4 text-gray-400">
+                    {t('cv.created_by')} ViecS
                 </div>
             </div>
         </div>

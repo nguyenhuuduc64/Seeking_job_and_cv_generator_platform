@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { useTranslation } from 'react-i18next';
 export interface CertificateItem {
     time: string;
     name: string;
@@ -17,22 +17,20 @@ interface Props {
 }
 
 const CertificateInputBlock: React.FC<Props> = ({ data, onDataChange, onDelete }) => {
+    const { t } = useTranslation();
     const [localData, setLocalData] = useState<CertificateData>(() => {
-        // 1. Nếu có dữ liệu truyền vào và nó có trường 'list'
         if (data && data.list) {
             return {
                 title: data.title || 'CHỨNG CHỈ',
                 list: data.list,
             };
         }
-        // 2. Nếu dữ liệu truyền vào bị thiếu 'list' nhưng vẫn là Object
         if (data) {
             return {
                 title: data.title || 'CHỨNG CHỈ',
-                list: [], // Khởi tạo mảng rỗng để không bị lỗi .map()
+                list: [],
             };
         }
-        // 3. Mặc định hoàn toàn nếu không có gì
         return {
             title: 'CHỨNG CHỈ',
             list: [{ time: '', name: '' }],
@@ -50,13 +48,14 @@ const CertificateInputBlock: React.FC<Props> = ({ data, onDataChange, onDelete }
     const addRow = () => {
         const newData = { ...localData, list: [...localData.list, { time: '', name: '' }] };
         setLocalData(newData);
+        if (onDataChange) onDataChange(newData);
     };
 
     return (
         <div className="group relative mb-8 w-full bg-white p-2">
             <div className="mb-4 w-full border-b border-black pb-1">
                 <h2 className="text-base font-bold uppercase tracking-wide text-black">
-                    {localData.title}
+                    {t('cv.certificate.title')}
                 </h2>
             </div>
 
@@ -65,7 +64,7 @@ const CertificateInputBlock: React.FC<Props> = ({ data, onDataChange, onDelete }
                     <div key={index} className="grid grid-cols-12 gap-4">
                         <div className="col-span-3">
                             <input
-                                placeholder="Thời gian"
+                                placeholder={t('cv.certificate.time_placeholder')}
                                 className="w-full border-none bg-transparent text-sm italic text-gray-500 outline-none focus:ring-0"
                                 value={item.time}
                                 onChange={(e) => updateList(index, 'time', e.target.value)}
@@ -73,7 +72,7 @@ const CertificateInputBlock: React.FC<Props> = ({ data, onDataChange, onDelete }
                         </div>
                         <div className="col-span-9">
                             <input
-                                placeholder="Tên chứng chỉ"
+                                placeholder={t('cv.certificate.name_placeholder')}
                                 className="w-full border-none bg-transparent text-sm font-medium text-gray-800 outline-none focus:ring-0"
                                 value={item.name}
                                 onChange={(e) => updateList(index, 'name', e.target.value)}
@@ -87,7 +86,7 @@ const CertificateInputBlock: React.FC<Props> = ({ data, onDataChange, onDelete }
                 onClick={addRow}
                 className="mt-2 text-xs text-blue-500 opacity-0 group-hover:opacity-100"
             >
-                + Thêm chứng chỉ
+                + {t('cv.certificate.add_button')}
             </button>
 
             <div className="mt-2 rounded bg-gray-50 p-2 font-mono text-[10px] text-gray-400 opacity-0 transition-opacity group-hover:opacity-100">

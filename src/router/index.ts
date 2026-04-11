@@ -20,6 +20,8 @@ import About from '@/pages/About';
 import JobDescriptionPage from '@/pages/JobDescriptionPage';
 import path from 'path';
 import CompanyPage from '@/pages/CompanyPage';
+import LikeStorePage from '@/pages/LikeStorePage';
+import ChatPage from '@/pages/ChatPage';
 export const publicRoutes = [
     {
         path: '/',
@@ -50,6 +52,7 @@ export const publicRoutes = [
         path: '/tin-tuyen-dung/:id',
         element: JobDescriptionPage,
     },
+
     {
         path: '/cong-ty/:companyId',
         element: CompanyPage,
@@ -68,6 +71,14 @@ export const privateRoutes = [
     {
         path: '/tao-cv/:id',
         element: Resume,
+    },
+    {
+        path: '/tin-tuyen-dung/da-thich',
+        element: LikeStorePage,
+    },
+    {
+        path: '/chat/tin-tuyen-dung/:id',
+        element: ChatPage,
     },
 ];
 

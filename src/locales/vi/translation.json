@@ -1,0 +1,47 @@
+{
+    "cv": {
+        "draft_saved": "--- Đã lưu nháp vào LocalStorage (Debounced) ---",
+        "created_by": "được tạo bởi",
+        "remove_block": "Xóa khối này",
+        "personal": {
+            "default_name": "Nguyễn Hữu Đức",
+            "default_position": "Vị trí ứng tuyển",
+            "default_gender": "Nam/Nữ",
+            "default_address": "Cần Thơ, Việt Nam",
+            "name_placeholder": "Họ và tên",
+            "dob": "Ngày sinh:",
+            "gender": "Giới tính:",
+            "phone": "Điện thoại:",
+            "email": "Email:",
+            "address": "Địa chỉ:"
+        },
+        "education": {
+            "title": "Học vấn",
+            "period_placeholder": "Bắt đầu - Kết thúc",
+            "school_placeholder": "Tên trường học",
+            "major_placeholder": "Ngành học / Môn học",
+            "desc_placeholder": "Mô tả quá trình học tập hoặc thành tích của bạn"
+        },
+        "objective": {
+            "title": "Mục tiêu nghề nghiệp",
+            "placeholder": "Mục tiêu nghề nghiệp của bạn..."
+        },
+        "experience": {
+            "title": "Kinh nghiệm làm việc",
+            "add_button": "Thêm kinh nghiệm",
+            "period_placeholder": "Bắt đầu - Kết thúc",
+            "company_placeholder": "Tên công ty",
+            "position_placeholder": "Vị trí công việc",
+            "desc_placeholder": "Mô tả kinh nghiệm..."
+        },
+        "certificate": {
+            "title": "Chứng chỉ",
+            "add_button": "Thêm chứng chỉ",
+            "time_placeholder": "Thời gian",
+            "name_placeholder": "Tên chứng chỉ"
+        },
+        "common": {
+            "delete": "Xóa mục này"
+        }
+    }
+}

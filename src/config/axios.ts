@@ -1,7 +1,6 @@
 import axios from 'axios';
-//http://localhost:8080
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || 'https://springboot-tutorial-q2fj.onrender.com';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 export const instance = axios.create({
     baseURL: `${API_BASE_URL}/api`,
@@ -12,9 +11,7 @@ export const instance = axios.create({
 });
 
 const refreshInstance = axios.create({
-    baseURL: `${
-        import.meta.env.VITE_API_BASE_URL || 'https://springboot-tutorial-q2fj.onrender.com'
-    }/api`,
+    baseURL: `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/api`,
     withCredentials: true, // Để gửi Cookie
 });
 

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '@/config/axios';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { RecruitmentType } from '@/types/RecruitmentType';
 import { CompanyType } from '@/types/Company';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -25,6 +25,7 @@ import {
     faCircleDollarToSlot,
     faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-regular-svg-icons';
 
 interface JobDetailType extends RecruitmentType {
     company?: CompanyType;
@@ -33,7 +34,7 @@ interface JobDetailType extends RecruitmentType {
 export default function JobDescriptionPage() {
     const { id } = useParams();
     const [company, setCompany] = useState<CompanyType>();
-
+    const navigate = useNavigate();
     const { data: job, isLoading } = useQuery<JobDetailType>({
         queryKey: ['job', id],
         queryFn: async () => {
@@ -85,10 +86,11 @@ export default function JobDescriptionPage() {
                                 </h1>
                             </div>
                             <button
-                                className="flex items-center gap-2 text-sm font-medium hover:underline"
+                                className="flex items-center gap-2 text-sm font-medium hover:underline cursor-pointer"
                                 style={{ color: 'var(--primary-color)' }}
+                                onClick={() => navigate(`/chat/tin-tuyen-dung/${job?.id}`)}
                             >
-                                <FontAwesomeIcon icon={faPaperPlane} /> Gửi tôi việc làm tương tự
+                                <FontAwesomeIcon icon={faMessage} /> Chat với nhà tuyển dụng
                             </button>
                         </div>
 

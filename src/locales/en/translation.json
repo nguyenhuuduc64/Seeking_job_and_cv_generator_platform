@@ -1,0 +1,47 @@
+{
+    "cv": {
+        "draft_saved": "--- Draft saved to LocalStorage (Debounced) ---",
+        "created_by": "created by",
+        "remove_block": "Remove this block",
+        "personal": {
+            "default_name": "Duc Nguyen",
+            "default_position": "Job Position",
+            "default_gender": "Male/Female",
+            "default_address": "Can Tho, Viet Nam",
+            "name_placeholder": "Full Name",
+            "dob": "Date of Birth:",
+            "gender": "Gender:",
+            "phone": "Phone:",
+            "email": "Email:",
+            "address": "Address:"
+        },
+        "education": {
+            "title": "Education",
+            "period_placeholder": "Start - End",
+            "school_placeholder": "School Name",
+            "major_placeholder": "Major / Subjects",
+            "desc_placeholder": "Describe your educational process or achievements"
+        },
+        "objective": {
+            "title": "Career Objective",
+            "placeholder": "Your career objectives..."
+        },
+        "experience": {
+            "title": "Work Experience",
+            "add_button": "Add Experience",
+            "period_placeholder": "Start - End",
+            "company_placeholder": "Company Name",
+            "position_placeholder": "Job Position",
+            "desc_placeholder": "Describe your experience..."
+        },
+        "certificate": {
+            "title": "Certificates",
+            "add_button": "Add Certificate",
+            "time_placeholder": "Time",
+            "name_placeholder": "Certificate Name"
+        },
+        "common": {
+            "delete": "Delete this item"
+        }
+    }
+}

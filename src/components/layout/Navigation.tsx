@@ -95,6 +95,12 @@ export function Navigation() {
                                                     <ListItem href="/categories" title="Ngành nghề">
                                                         Lọc theo chuyên môn.
                                                     </ListItem>
+                                                    <ListItem
+                                                        href="/tin-tuyen-dung/da-thich"
+                                                        title="Việc làm đã thích"
+                                                    >
+                                                        Việc làm đã lưu
+                                                    </ListItem>
                                                 </ul>
                                             </NavigationMenuContent>
                                         </NavigationMenuItem>

@@ -14,11 +14,16 @@ import Italic from '@tiptap/extension-italic';
 import StarterKit from '@tiptap/starter-kit';
 import { getmarkCv, handleAIReview } from '@/utils/resume';
 import { toPng } from 'html-to-image';
-
+import ButtonCustom from '../components/common/Button';
+import { languageUtils } from '@/utils/language';
+import i18n from '@/config/i18n';
+import { useTranslation } from 'react-i18next';
 function ResumeGeneratePage() {
     const { id } = useParams();
     const [cvData, setCvData] = useState<any[]>([]);
     const resumeRef = useRef<any>(null);
+    const [language, setLanguage] = useState('vi');
+    const { i18n } = useTranslation();
     const { data, isLoading } = useQuery({
         queryKey: ['cv', id],
         queryFn: () => instance.get(`/cvs/${id}`).then((res) => res.data),
@@ -40,7 +45,10 @@ function ResumeGeneratePage() {
             setCvData(dataCv);
         }
     }, [data, isLoading, id]);
-
+    const handleToggleLanguage = () => {
+        if (language == 'vi') setLanguage('en');
+        else setLanguage('vi');
+    };
     const handleSave = async () => {
         const cleanContent = cvData.map(({ chosen, selected, ...rest }) => rest);
         const payload = {
@@ -72,14 +80,25 @@ function ResumeGeneratePage() {
             <div className="container mx-auto px-10 md:px-20 flex gap-10">
                 <div className="flex-2">
                     <div className="flex gap-2 mb-4">
-                        <Button onClick={handleSave} name="Lưu CV" />
-                        <Button onClick={() => resumeRef.current?.print()} name="Xuất File PDF" />
-                        <Button
+                        <ButtonCustom onClick={handleSave} name="Lưu CV" />
+                        <ButtonCustom
+                            onClick={() => resumeRef.current?.print()}
+                            name="Xuất File PDF"
+                        />
+                        <ButtonCustom
                             name="AI Review"
                             icon={faMagicWandSparkles}
                             variant="secondary"
                             onClick={() => resumeRef.current?.aiReview()}
                         />
+                        <ButtonCustom
+                            onClick={() => languageUtils.toggle()}
+                            variant="outline"
+                            className="no-print mb-4 min-w-[45px] h-[35px] font-black uppercase border-2"
+                        >
+                            {/* Dùng i18n từ hook thưa ông chủ */}
+                            {i18n.language}
+                        </ButtonCustom>
                     </div>
                     <div className="flex gap-10">
                         <div className="relative">
