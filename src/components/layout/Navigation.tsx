@@ -154,6 +154,13 @@ export function Navigation() {
                             </div>
                         ) : (
                             <div className="flex items-center">
+                                <Link
+                                    to="/tin-nhan"
+                                    className={`${navigationMenuTriggerStyle()} !w-full !justify-center !h-[var(--header-height)] !rounded-none  font-bold text-xs tracking-widest bg-transparent`}
+                                >
+                                    Tin nhắn
+                                </Link>
+
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button
@@ -187,12 +194,13 @@ export function Navigation() {
                                 </DropdownMenu>
                                 <div className="flex items-center space-x-3 border-l-2 border-gray-200 pl-4 ml-2">
                                     <div className="flex flex-col">
-                                        <p className="text-gray-500 text-[10px] font-light italic leading-none">
+                                        <p className="text-gray-500 text-[10px] font-light italic leading-none whitespace-nowrap">
                                             Nhà tuyển dụng?
                                         </p>
                                         <a
                                             href="/dang-ky-tuyen-dung"
-                                            className="font-bold text-[12px] hover:text-green-600 mt-1"
+                                            /* Thêm whitespace-nowrap vào đây thưa ông chủ */
+                                            className="font-bold text-[12px] hover:text-green-600 mt-1 whitespace-nowrap"
                                             style={{ color: 'var(--primary-color)' }}
                                         >
                                             Đăng ký ngay

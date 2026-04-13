@@ -77,7 +77,7 @@ export const privateRoutes = [
         element: LikeStorePage,
     },
     {
-        path: '/chat/tin-tuyen-dung/:id',
+        path: '/tin-nhan',
         element: ChatPage,
     },
 ];

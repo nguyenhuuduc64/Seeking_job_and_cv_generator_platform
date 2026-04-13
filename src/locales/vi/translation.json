@@ -40,6 +40,12 @@
             "time_placeholder": "Thời gian",
             "name_placeholder": "Tên chứng chỉ"
         },
+        "skill": {
+            "title": "KỸ NĂNG",
+            "kill_group_placeholder": "Tên nhóm kỹ năng",
+            "skill_list_placeholder": "Danh sách kỹ năng",
+            "add_button": "Thêm kỹ năng"
+        },
         "common": {
             "delete": "Xóa mục này"
         }

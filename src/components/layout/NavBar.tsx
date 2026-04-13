@@ -1,5 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faBoltLightning, faChevronDown, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import {
+    faAngleDown,
+    faBoltLightning,
+    faChevronDown,
+    faSignOut,
+} from '@fortawesome/free-solid-svg-icons';
 import { registerSchema } from '../../features/modal/types';
 import { SchemaForm } from '../../components/common/forms/SchemaForm';
 import { useAppDispatch } from '../../hooks/redux';
@@ -16,7 +21,6 @@ import Menu from '../common/Menu';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Button } from '../ui/button';
 import { DropdownMenu } from '../ui/dropdown-menu';
-
 
 interface ItemType {
     name: string;
@@ -141,12 +145,10 @@ const Navbar = () => {
                 )}
 
                 {currentUser && (
-                    <div className="flex items-center cursor-pointer" >
-
-
-                        <div className='flex items-center'>
+                    <div className="flex items-center cursor-pointer">
+                        <div className="flex items-center">
                             <Menu defaultName={currentUser.fullName} items={menuItems} />
-                            <FontAwesomeIcon icon={faAngleDown} className='text-gray-500 mr-4' />
+                            <FontAwesomeIcon icon={faAngleDown} className="text-gray-500 mr-4" />
                         </div>
                         <div className="flex items-center space-x-3 border-l-2 border-gray-200 pl-4">
                             <div className="flex flex-col">
@@ -159,15 +161,11 @@ const Navbar = () => {
                                     style={{ color: 'var(--primary-color)' }}
                                 >
                                     Đăng ký ngay
-
                                 </a>
                             </div>
                         </div>
                     </div>
                 )}
-
-
-
             </nav>
 
             <LoginForm />

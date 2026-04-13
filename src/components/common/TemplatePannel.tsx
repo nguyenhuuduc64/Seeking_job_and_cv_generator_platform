@@ -17,6 +17,8 @@ const TemplatePanel = () => {
                 sampleData = { company: 'Tên Công Ty', position: 'Vị trí công tác' };
             if (activeTab === 'EDUCATION')
                 sampleData = { school: 'Tên Trường Học', major: 'Ngành học' };
+            if (activeTab === 'SKILL')
+                sampleData = { content: 'Mục tiêu nghề nghiệp của tôi là...' };
 
             return {
                 id: `temp_${activeTab}_${index}`,
@@ -32,7 +34,7 @@ const TemplatePanel = () => {
     return (
         <div className="flex-1 bg-white p-6 shadow-sm self-start no-print md:sticky sticky top-0">
             <h4 className="text-blue-800 font-black uppercase text-xs border-b pb-3 mb-4">
-                Danh sách linh kiện
+                Danh sách mẫu
             </h4>
 
             <div className="mb-6">
@@ -53,9 +55,7 @@ const TemplatePanel = () => {
             </div>
 
             <div className="space-y-6">
-                <p className="text-[10px] font-bold text-gray-400 uppercase">
-                    Kéo linh kiện vào CV
-                </p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase">Kéo các mẫu vào CV</p>
 
                 <ReactSortable
                     list={listTemplates}

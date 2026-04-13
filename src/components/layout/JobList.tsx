@@ -7,6 +7,7 @@ import { JobFilterBar } from '../common/JobFilterBar';
 import PaginationBar from '../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { RecruitmentType } from '@/types/RecruitmentType';
+import { Spinner } from '../common/Spiner';
 
 const JobList = () => {
     const navigate = useNavigate();
@@ -38,7 +39,8 @@ const JobList = () => {
 
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-10 text-center">
-                    Đang tải tin tuyển dụng thưa ông chủ...
+                    Đang tải tin tuyển dụng
+                    <Spinner />
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-10">

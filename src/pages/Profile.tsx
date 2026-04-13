@@ -3,20 +3,29 @@ import instance from '../config/axios';
 import { type CVType } from '../types';
 import { useQuery } from '@tanstack/react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-import DocItem from '../components/common/docItem/DocItem';
+import DocItem from '../components/common/DocItem';
+import { useSelector } from 'react-redux';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Badge } from '@/components/ui/badge';
+import { Mail, ShieldCheck, User } from 'lucide-react';
+import { ArrowUpCircle, CheckCircle2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 export default function Profile() {
     const navigate = useNavigate();
+    const user = useSelector((state: any) => state.user.user);
+
     //ham lay danh sach cv
     const { data, isError, error } = useQuery({
         queryKey: ['cvs'], // Key duy nhất để định danh dữ liệu này trong bộ nhớ đệm
         queryFn: () => instance.get('/cvs').then((res) => res.data),
         refetchOnWindowFocus: false,
     });
-
-
 
     useEffect(() => {
         if (isError) {
@@ -25,6 +34,7 @@ export default function Profile() {
         if (data) {
             console.log('danh sach cv lay duoc', data);
         }
+        console.log('user', user);
     }, [isError, error, data]);
 
     return (
@@ -45,166 +55,110 @@ export default function Profile() {
                     className="p-2 border-[2px] cursor-pointer flex items-center justify-center lg:w-[200px] lg:h-[300px] md:w-[200px] md:h-[300px]"
                     style={{
                         backgroundColor: 'var(--background-default-color)',
-                        borderImageSource: 'linear-gradient(to bottom right, rgba(37, 99, 235, 1), rgba(249, 115, 22, 0.5))',
-                        borderImageSlice: 1
+                        borderImageSource:
+                            'linear-gradient(to bottom right, rgba(37, 99, 235, 1), rgba(249, 115, 22, 0.5))',
+                        borderImageSlice: 1,
                     }}
                     onClick={() => navigate('/tao-cv')}
                 >
-                    <FontAwesomeIcon icon={faPlus} className='text-2xl text-blue-600' />
+                    <FontAwesomeIcon icon={faPlus} className="text-2xl text-blue-600" />
                 </div>
             </div>
 
             {/* Vùng bên phải: Thông tin & Quy định (Chiếm 1 phần) */}
-            <div className="flex flex-col gap-8 flex-1">
-                <div className="flex-1 border border-blue-100 bg-white p-6 rounded-lg shadow-sm">
-                    {/* Tiêu đề trang trọng */}
-                    <div className="flex items-center gap-2 mb-4 border-b border-blue-200 pb-2">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-blue-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04a11.02 11.02 0 00-2.396 12.261 11.955 11.955 0 0011.014 7.755 11.955 11.955 0 0011.014-7.755 11.02 11.02 0 00-2.396-12.261z"
-                            />
-                        </svg>
-                        <h3 className="text-base font-bold uppercase tracking-tight text-blue-900">
-                            Cam kết bảo mật từ Ban sáng lập
-                        </h3>
-                    </div>
+            <div className="flex flex-col gap-8 flex-1 h-100vh">
+                <Card className="w-full h-full max-w-md border-none shadow-md bg-white overflow-hidden">
+                    <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
+                        <div className="relative">
+                            <Avatar className="h-20 w-20 border-2 border-gray-100">
+                                <AvatarImage
+                                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`}
+                                />
+                                <AvatarFallback>{user.fullName?.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <Badge className="absolute -top-2 -right-2 bg-gray-500 text-[10px] text-white py-0 px-1">
+                                VERIFIED
+                            </Badge>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <p className="text-sm text-gray-500">Chào bạn trở lại,</p>
+                            <h3 className="text-xl font-bold text-gray-900">{user.fullName}</h3>
+                            <Badge className="w-fit bg-gray-100 text-gray-600 hover:bg-gray-200 border-none text-[11px]">
+                                Tài khoản đã xác thực
+                            </Badge>
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                className="h-8 mt-1 text-xs bg-gray-100 hover:bg-gray-200"
+                            >
+                                <ArrowUpCircle className="w-3 h-3 mr-1" /> Nâng cấp tài khoản
+                            </Button>
+                        </div>
+                    </CardHeader>
 
-                    {/* Nội dung liệt kê cam kết */}
-                    <ul className="space-y-4 text-sm text-gray-700">
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">01.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Bảo mật tuyệt đối:
-                                </span>{' '}
-                                Dữ liệu cá nhân và nội dung CV của khách hàng được mã hóa và lưu trữ
-                                an toàn, cam kết không cung cấp cho bên thứ ba khi chưa có sự đồng
-                                ý.
-                            </p>
-                        </li>
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">02.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Quyền sở hữu dữ liệu:
-                                </span>{' '}
-                                Người dùng có toàn quyền chỉnh sửa, xóa bỏ thông tin cá nhân khỏi hệ
-                                thống bất cứ lúc nào.
-                            </p>
-                        </li>
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">03.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Hỗ trợ chính trực:
-                                </span>{' '}
-                                Đội ngũ kỹ thuật luôn sẵn sàng hỗ trợ xử lý các vấn đề liên quan đến
-                                dữ liệu và trải nghiệm người dùng một cách nhanh chóng nhất.
-                            </p>
-                        </li>
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">04.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">Không spam:</span> Hệ
-                                thống cam kết không gửi email quảng cáo rác, chỉ liên lạc khi có
-                                thông báo quan trọng về tài khoản hoặc cập nhật hệ thống.
-                            </p>
-                        </li>
-                    </ul>
+                    <Separator className="my-2" />
 
-                    {/* Chân trang thông điệp */}
-                    <div className="mt-6 pt-4 border-t border-blue-100 text-center">
-                        <p className="text-xs font-medium text-blue-800 italic">
-                            "Sự tin tưởng của khách hàng là tài sản lớn nhất của chúng tôi."
-                        </p>
-                        <p className="mt-1 text-[10px] text-gray-400 uppercase tracking-widest">
-                            The Founding Team
-                        </p>
-                    </div>
-                </div>
-                <div className="flex-1 border border-blue-100 bg-white p-6 rounded-lg shadow-sm">
-                    {/* Tiêu đề trang trọng */}
-                    <div className="flex items-center gap-2 mb-4 border-b border-blue-200 pb-2">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-blue-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                        </svg>
-                        <h3 className="text-base font-bold uppercase tracking-tight text-blue-900">
-                            Quy định & Điều khoản sử dụng
-                        </h3>
-                    </div>
+                    <CardContent className="grid gap-6 pt-4">
+                        {/* Phần Switch Tìm việc thưa ông chủ */}
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Switch id="job-status" />
+                                    <label htmlFor="job-status" className="font-bold text-gray-600">
+                                        Đang Tắt tìm việc
+                                    </label>
+                                </div>
+                            </div>
 
-                    {/* Nội dung liệt kê quy định */}
-                    <ul className="space-y-4 text-sm text-gray-700">
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">01.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Trách nhiệm nội dung:
-                                </span>{' '}
-                                Người dùng chịu trách nhiệm hoàn toàn về tính xác thực của thông
-                                tin. Hệ thống từ chối các nội dung vi phạm pháp luật hoặc thuần
-                                phong mỹ tục.
-                            </p>
-                        </li>
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">02.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Bản quyền mẫu (Template):
-                                </span>{' '}
-                                Các mẫu thiết kế thuộc quyền sở hữu trí tuệ của nền tảng. Người dùng
-                                chỉ được sử dụng cho mục đích cá nhân, không sao chép để kinh doanh.
-                            </p>
-                        </li>
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">03.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Lưu trữ dữ liệu:
-                                </span>{' '}
-                                Hệ thống hỗ trợ lưu nháp tự động. Tuy nhiên, người dùng nên chủ động
-                                xuất file PDF để lưu trữ cá nhân một cách an toàn nhất.
-                            </p>
-                        </li>
-                        <li className="flex gap-3">
-                            <span className="font-bold text-blue-600">04.</span>
-                            <p>
-                                <span className="font-semibold text-gray-900">
-                                    Điều chỉnh dịch vụ:
-                                </span>{' '}
-                                Ban quản trị có quyền cập nhật các tính năng và điều khoản để nâng
-                                cao trải nghiệm mà không cần thông báo trước.
-                            </p>
-                        </li>
-                    </ul>
+                            <div className="space-y-3 px-1">
+                                <p className="text-xs text-gray-400 font-medium uppercase">
+                                    Khi bật tìm việc:
+                                </p>
+                                <div className="flex gap-2 items-start">
+                                    <CheckCircle2 className="w-4 h-4 text-gray-300 shrink-0 mt-0.5" />
+                                    <p className="text-xs text-gray-500">
+                                        Nhà tuyển dụng có thể{' '}
+                                        <span className="font-bold text-gray-700">tìm thấy</span> và
+                                        mang đến cho bạn những cơ hội hấp dẫn.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                    {/* Chân trang thông điệp */}
-                    <div className="mt-6 pt-4 border-t border-blue-100 text-right">
-                        <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                            Cập nhật: 01/02/2026
-                        </p>
-                    </div>
-                </div>
+                        {/* Phần Switch cho phép NTD tìm kiếm thưa ông chủ */}
+                        <div className="flex flex-col gap-3 bg-green-50/50 p-3 rounded-lg border border-green-100">
+                            <div className="flex items-center gap-3">
+                                <Switch
+                                    id="allow-search"
+                                    defaultChecked
+                                    className="data-[state=checked]:bg-[var(--primary-color)]"
+                                />
+                                <label
+                                    htmlFor="allow-search"
+                                    className="font-bold text-[var(--primary-color)]"
+                                >
+                                    Cho phép NTD tìm kiếm hồ sơ
+                                </label>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed">
+                                Bạn đang cho phép Nhà tuyển dụng (NTD) tìm kiếm hồ sơ để tiếp cận
+                                thông tin kinh nghiệm, kỹ năng... trên CV của bạn.
+                            </p>
+                        </div>
+
+                        {/* Thông tin liên hệ cũ thưa ông chủ */}
+                        <div className="grid gap-2 pt-2">
+                            <div className="flex items-center text-sm text-gray-600">
+                                <Mail className="w-4 h-4 mr-3 text-gray-400" />
+                                {user.email}
+                            </div>
+                            <div className="flex items-center text-sm text-gray-500 italic">
+                                <ShieldCheck className="w-4 h-4 mr-3 text-blue-400" />
+                                {user.roles?.description}
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );

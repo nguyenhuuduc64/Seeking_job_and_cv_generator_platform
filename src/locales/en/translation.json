@@ -40,6 +40,12 @@
             "time_placeholder": "Time",
             "name_placeholder": "Certificate Name"
         },
+        "skill": {
+            "title": "Skills",
+            "kill_group_placeholder": "Skill group",
+            "skill_list_placeholder": "Skill details",
+            "add_button": "Add Skill"
+        },
         "common": {
             "delete": "Delete this item"
         }

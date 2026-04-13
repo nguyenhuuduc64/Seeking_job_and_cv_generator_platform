@@ -15,6 +15,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { handleAIReview } from '@/utils/resume';
 import i18n from '@/config/i18n';
 import ButtonCustom from './Button';
+import SkillInputBlock from '../template/react-to-print/SkillInputBlock';
 
 const cx = classNames.bind(styles);
 
@@ -164,6 +165,14 @@ const Resume = forwardRef(({ cvData = [], onItemsChange, styles }: ResumeProps, 
                                 )}
                                 {type === 'CERTIFICATE' && (
                                     <CertificateInputBlock
+                                        data={block.data}
+                                        onDataChange={(newData) =>
+                                            handleUpdateBlockData(block.id, newData)
+                                        }
+                                    />
+                                )}
+                                {type === 'SKILLS' && (
+                                    <SkillInputBlock
                                         data={block.data}
                                         onDataChange={(newData) =>
                                             handleUpdateBlockData(block.id, newData)

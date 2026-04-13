@@ -37,7 +37,8 @@ export const dataCv = [
             email: 'duc.nguyen@example.com',
             phone: '0123456789',
             address: 'Cần Thơ, Việt Nam',
-            avatarUrl: 'https://res.cloudinary.com/dnecovspp/image/upload/v1754741468/luan_van/x2z5q2q2q2q2q2q2q2q2.jpg',
+            avatarUrl:
+                'https://res.cloudinary.com/dnecovspp/image/upload/v1754741468/luan_van/x2z5q2q2q2q2q2q2q2q2.jpg',
         },
     },
 
@@ -80,13 +81,10 @@ export const dataCv = [
     },
     {
         id: 'skill-1',
-        type: 'SKILLS',
+        type: 'SKILL',
         data: {
             title: 'KỸ NĂNG',
-            list: [
-                { name: 'ReactJS', level: '80%' },
-                { name: 'Java Spring Boot', level: '75%' },
-            ],
+            list: [{ group: 'Frontend', skillList: 'Reactjs, Vuejs' }],
         },
     },
 ];
